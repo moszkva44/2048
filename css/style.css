@@ -67,45 +67,45 @@
 
 .cell4096{
 	font-size: 1.1rem;
-	background-color: black;
+	background-color: rgb(9, 74, 26);
 }
 
 .cell8192{
 	font-size: 1.1rem;
-	background-color: black;
+	background-color: rgb(3, 54, 16);
 }
 
 .cell16384{
-	font-size: 0.8rem;
-	background-color: black;
+	font-size: 1rem;
+	background-color: rgb(1, 36, 10);
 }
 
 .cell32768{
-	font-size: 0.8rem;
-	background-color: black;
+	font-size: 1rem;
+	background-color: rgb(0, 18, 5);
 }
 
 .cell65536{
-	font-size: 0.8rem;
-	background-color: black;
+	font-size: 1rem;
+	background-color: rgb(0, 10, 3);
 }
 
 .cell131072{
-	font-size: 0.8rem;
+	font-size: 1rem;
 	background-color: black;
 }
 
 .cell262144{
-	font-size: 0.8rem;
+	font-size: 1rem;
 	background-color: black;
 }
 
 .cell524288{
-	font-size: 0.8rem;
+	font-size: 1rem;
 	background-color: black;
 }
 
-.cell1 048 576{
+.cell1048576{
 	font-size: 0.8rem;
 	background-color: black;
 }
