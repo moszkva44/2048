@@ -15,7 +15,93 @@ var tests = {
 		await this.testMoveMatrixDown([[8,2,0,0,2], [8,0,0,2,2], [16,0,0,2,2], [2,2,0,2,2], [2,0,0,2,4]], [[0,0,0,0,0], [0,0,0,0,0], [16,0,0,0,4], [16,0,0,4,4], [4,4,0,4,4]]);	
 		await this.testMoveMatrixDown([[2,2,2,2,2], [2,0,0,2,2], [0,0,2,2,4], [2,2,0,2,2], [2,2,2,0,4]], [[0,0,0,0,0], [0,0,0,0,4], [0,0,0,0,4], [4,2,2,4,2], [4,4,4,4,4]]);
 		
+		
+		await this.testChangeCheckingAfterLeftMove([[0,0,0,0,0],[0,0,0,0,0], [0,0,2,0,0], [0,0,0,0,0], [2,4,8,2,4]]);
+		await this.testChangeCheckingAfterRightMove([[0,0,0,0,0],[0,0,0,0,0], [0,0,2,0,0], [0,0,0,0,0], [2,4,8,2,4]]);
+		await this.testChangeCheckingAfterDownMove([[0,0,0,0,0],[0,0,0,0,0], [0,0,2,0,0], [0,0,0,0,0], [2,4,8,2,4]]);
+		await this.testChangeCheckingAfterUpMove([[0,0,0,0,0],[0,0,0,0,0], [0,0,2,0,0], [0,0,0,0,0], [2,4,8,2,4]]);
+				
 	},
+	
+	testChangeCheckingAfterLeftMove: async function(input)
+	{
+		matrix.setMatrix(input);
+		
+		game.createBackupPoint();
+		
+		await matrix.moveLeft();
+		
+		if(game.getBackupPoint().matrix==JSON.stringify(matrix.getMatrix()))
+		{
+			console.log('Test failed! testChangeChecking() after left move');
+			console.log('input:');
+			console.log(input);
+		}
+		else
+		{
+			console.log('Test passed! testChangeChecking()');
+		}
+	},
+
+	testChangeCheckingAfterRightMove: async function(input)
+	{
+		matrix.setMatrix(input);
+		
+		game.createBackupPoint();
+		
+		await matrix.moveRight();
+		
+		if(game.getBackupPoint().matrix==JSON.stringify(matrix.getMatrix()))
+		{
+			console.log('Test failed! testChangeChecking() after right move');
+			console.log('input:');
+			console.log(input);
+		}
+		else
+		{
+			console.log('Test passed! testChangeChecking()');
+		}
+	},	
+	
+	testChangeCheckingAfterUpMove: async function(input)
+	{
+		matrix.setMatrix(input);
+		
+		game.createBackupPoint();
+		
+		await matrix.moveUp();
+		
+		if(game.getBackupPoint().matrix==JSON.stringify(matrix.getMatrix()))
+		{
+			console.log('Test failed! testChangeChecking() after up move');
+			console.log('input:');
+			console.log(input);
+		}
+		else
+		{
+			console.log('Test passed! testChangeChecking()');
+		}
+	},		
+
+	testChangeCheckingAfterDownMove: async function(input)
+	{
+		matrix.setMatrix(input);
+				
+		game.createBackupPoint();
+		
+		await matrix.moveDown();
+		
+		if(game.getBackupPoint().matrix==JSON.stringify(matrix.getMatrix()))
+		{
+			console.log('Test failed! testChangeChecking() after down move');
+			console.log('input:');
+			console.log(input);		
+		}
+		else
+		{
+			console.log('Test passed! testChangeChecking()');
+		}
+	},		
 
 	testMoveMatrixLeft: async function(input, expected_output)
 	{

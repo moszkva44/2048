@@ -24,8 +24,7 @@ var matrix = {
 		var seq = 0;
 		var potentialPlaces = [];
 		var size = this.__matrix.length;
-		
-		
+				
 		for(var x = 0; x <= size-1; x++)
 		{
 			for(var y = 0; y <= size-1; y++)

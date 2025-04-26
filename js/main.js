@@ -78,16 +78,16 @@ else
 		
 		switch (event.key) {
 			case "ArrowLeft":			
-				game.createBackupPoint(game.handleUserAction(LEFT_MOVE));
+				game.handleUserAction(LEFT_MOVE);
 				break;
 			case "ArrowRight":	
-				game.createBackupPoint(game.handleUserAction(RIGHT_MOVE));				
+				game.handleUserAction(RIGHT_MOVE);				
 				break;
 			case "ArrowUp":
-				game.createBackupPoint(game.handleUserAction(UP_MOVE));
+				game.handleUserAction(UP_MOVE);
 				break;
 			case "ArrowDown":
-				game.createBackupPoint(game.handleUserAction(DOWN_MOVE));
+				game.handleUserAction(DOWN_MOVE);
 				break;
 		}
 	});

@@ -12,7 +12,7 @@ var game = {
 	},	
 	handleUserAction: async function(direction){
 		this.createBackupPoint();
-
+		
 		switch (direction) {
 			case LEFT_MOVE:			
 				await matrix.moveLeft();			
@@ -27,12 +27,12 @@ var game = {
 				await  matrix.moveDown();			
 				break;
 		}
-
-		if(this.getBackupPoint().matrix!=JSON.stringify(matrix.getMatrix()))
+		
+		if(this.getBackupPoint().matrix!==JSON.stringify(matrix.getMatrix()))
 		{
 			await matrix.populate();
 		}
-			
+
 		ui.renderScore();
 		this.createSnapshot();		
 	},
