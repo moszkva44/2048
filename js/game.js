@@ -4,6 +4,7 @@ const UP_MOVE = 3;
 const DOWN_MOVE = 4;
 
 var game = {
+	
 	__prevState: false,
 	
 	getBackupPoint: function(){
@@ -35,7 +36,7 @@ var game = {
 		ui.renderScore();
 		this.createSnapshot();		
 	},
-	startNew: function(){
+	startNew: function(size){
 		if(localStorage.getItem("matrix") && localStorage.getItem("score")){
 			matrix.setMatrix(JSON.parse(localStorage.getItem("matrix")));
 			ui.score = parseInt(localStorage.getItem("score"));
@@ -44,7 +45,7 @@ var game = {
 			ui.renderScore();
 			
 		}else{
-			matrix.init(5);
+			matrix.init(size);
 			ui.score = 0;
 				
 			ui.renderMatrix();
@@ -55,11 +56,11 @@ var game = {
 			ui.renderScore();
 		}		
 	},	
-	reset: function(){
+	reset: function(size){
 		localStorage.removeItem("matrix");
 		localStorage.removeItem("score");
 		
-		matrix.init(5);
+		matrix.init(size);
 		ui.score = 0;
 			
 		ui.renderMatrix();

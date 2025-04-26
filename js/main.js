@@ -50,16 +50,19 @@ function handleTouchMove(evt) {
 
 
 window.onload = function(){ 
-	game.startNew();
+	game.startNew(document.getElementById('size_selector').value);
 	
 	document.getElementById('resetButton').addEventListener('click', function(){
-		game.reset();		
+		game.reset(document.getElementById('size_selector').value);		
 	});     
 	
 	document.getElementById('undoButton').addEventListener('click', function(){
 		game.undo();		
-	});  	
+	});  	 
+
+	document.getElementById('size_selector').value = matrix.getMatrix().length;
 }
+
 
 var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 	
