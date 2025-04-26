@@ -16,8 +16,6 @@ function handleTouchMove(evt) {
     if ( ! xDown || ! yDown ) {
         return;
     }
-		
-	game.createBackupPoint();
 
     var xUp = evt.touches[0].clientX;                                    
     var yUp = evt.touches[0].clientY;
@@ -28,39 +26,31 @@ function handleTouchMove(evt) {
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
         if ( xDiff > 0 ) {
             /* right swipe */ 
-			matrix.moveLeft();	
+			game.createBackupPoint(game.handleUserAction(LEFT_MOVE));
 			
         } else {
             /* left swipe */
-			matrix.moveRight();					
+			game.createBackupPoint(game.handleUserAction(RIGHT_MOVE));				
         }                       
     } else {
         if ( yDiff > 0 ) {
             /* down swipe */ 
-			matrix.moveUp();	
+			game.createBackupPoint(game.handleUserAction(UP_MOVE));
         } else { 
             /* up swipe */
-			matrix.moveDown();			
+			game.createBackupPoint(game.handleUserAction(DOWN_MOVE));
         }                                                                 
     }
     /* reset values */
     xDown = null;
     yDown = null;     
 
-	if(game.getBackupPoint().matrix!=JSON.stringify(matrix.getMatrix()))
-	{
-		matrix.populate();
-	}
-		
-	ui.renderScore();
-	game.createSnapshot();
-	
 	evt.preventDefault();
 };
 
 
 window.onload = function(){ 
-	game.new();
+	game.startNew();
 	
 	document.getElementById('resetButton').addEventListener('click', function(){
 		game.reset();		
@@ -83,31 +73,20 @@ else
 	window.addEventListener('keydown', (event) => {
 		const key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
 		
-		game.createBackupPoint();
-
 		switch (event.key) {
 			case "ArrowLeft":			
-				matrix.moveLeft();			
+				game.createBackupPoint(game.handleUserAction(LEFT_MOVE));
 				break;
-			case "ArrowRight":
-				matrix.moveRight();			
+			case "ArrowRight":	
+				game.createBackupPoint(game.handleUserAction(RIGHT_MOVE));				
 				break;
 			case "ArrowUp":
-				matrix.moveUp();			
+				game.createBackupPoint(game.handleUserAction(UP_MOVE));
 				break;
 			case "ArrowDown":
-				matrix.moveDown();			
+				game.createBackupPoint(game.handleUserAction(DOWN_MOVE));
 				break;
 		}
-
-
-		if(game.getBackupPoint().matrix!=JSON.stringify(matrix.getMatrix()))
-		{
-			matrix.populate();
-		}
-			
-		ui.renderScore();
-		game.createSnapshot();
 	});
 }
 

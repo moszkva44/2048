@@ -19,7 +19,7 @@ var matrix = {
 			}
 		}
 	},
-	populate: function()
+	populate: async function()
 	{
 		var seq = 0;
 		var potentialPlaces = [];
@@ -59,7 +59,7 @@ var matrix = {
 					if(seq==newNumber)
 					{
 						this.__matrix[x][y] = utils.getRandomValue();
-						ui.renderCell(x, y, this.__matrix[x][y]);
+						await ui.renderCell(x, y, this.__matrix[x][y]);
 					}
 					
 					seq++;
@@ -111,21 +111,21 @@ var matrix = {
 		return pos;
 	},
 	getFirstNotNullPosition: function(vector){
-	var size = vector.length;
-	
-	var pos = -1;
-	
-	for(var i = size-1; i >= 0; i--)
-	{
-		if(vector[i] > 0 && i > 0 && vector[i-1]==0)
+		var size = vector.length;
+		
+		var pos = -1;
+		
+		for(var i = size-1; i >= 0; i--)
 		{
-			pos = i;
-		}
-	}	
+			if(vector[i] > 0 && i > 0 && vector[i-1]==0)
+			{
+				pos = i;
+			}
+		}	
 
-	return pos;
+		return pos;
 	},
-	removeZeroRight: function(x){
+	removeZeroRight: async function(x){
 		var size = this.__matrix.length;
 		
 		var lastPosition = -1;
@@ -141,9 +141,10 @@ var matrix = {
 					{
 						this.__matrix[x][i+1] = this.__matrix[x][i];
 						this.__matrix[x][i] = 0;
-						
-						ui.renderCell(x, i, 0);
-						ui.renderCell(x, i+1, this.__matrix[x][i+1]);
+
+						await ui.renderCell(x, i+1, this.__matrix[x][i+1]);
+						await utils.sleep(MOVE_DELAY);
+						await ui.renderCell(x, i, 0);
 					}
 					else
 					{
@@ -162,12 +163,12 @@ var matrix = {
 		}
 
 	},
-	moveRight: function(){
+	moveRight: async function(){
 		var size = this.__matrix.length;
 		
 		for(var x = 0; x <= size-1; x++)
 		{
-			this.removeZeroRight(x);
+			await this.removeZeroRight(x);
 
 			for(var i = size-1; i >= 0; i--)
 			{
@@ -178,16 +179,17 @@ var matrix = {
 					
 					ui.score+= this.__matrix[x][i];
 					
-					ui.renderCell(x, i, this.__matrix[x][i]);
-					ui.renderCell(x, i-1, 0);
+					await ui.renderCell(x, i-1, 0);
+					await ui.renderCell(x, i, this.__matrix[x][i]);
 					
-					this.removeZeroRight(x);
+					
+					await this.removeZeroRight(x);
 				}
 			}
 
 		}
 	},
-	removeZeroLeft: function(x){
+	removeZeroLeft: async function(x){
 		var size = this.__matrix.length;
 		
 		var lastPosition = -1;
@@ -204,8 +206,10 @@ var matrix = {
 						this.__matrix[x][i-1] = this.__matrix[x][i];
 						this.__matrix[x][i] = 0;
 						
-						ui.renderCell(x, i, 0);
-						ui.renderCell(x, i-1, this.__matrix[x][i-1]);
+						await ui.renderCell(x, i-1, this.__matrix[x][i-1]);
+						await utils.sleep(MOVE_DELAY);
+						await ui.renderCell(x, i, 0);
+						
 					}
 					else
 					{
@@ -223,13 +227,13 @@ var matrix = {
 			
 		}
 	},
-	moveLeft: function()
+	moveLeft: async function()
 	{
 		var size = this.__matrix.length;
 		
 		for(var x = 0; x <= size-1; x++)
 		{	
-			this.removeZeroLeft(x);
+			await this.removeZeroLeft(x);
 			
 			for(var i = 0; i <= size-1; i++)
 			{
@@ -240,17 +244,17 @@ var matrix = {
 					
 					ui.score+= this.__matrix[x][i];
 					
-					ui.renderCell(x, i, this.__matrix[x][i]);
-					ui.renderCell(x, i+1, 0);
+					await ui.renderCell(x, i, this.__matrix[x][i]);
+					await ui.renderCell(x, i+1, 0);
 					
-					this.removeZeroLeft(x);			
+					await this.removeZeroLeft(x);			
 				}
 			}
 
 		}
 
 	},
-	removeZeroUp: function(y){
+	removeZeroUp: async function(y){
 		var size = this.__matrix.length;
 		
 		var column = utils.extractColumn(this.__matrix, y);
@@ -272,8 +276,10 @@ var matrix = {
 						this.__matrix[i-1][y] = this.__matrix[i][y];
 						this.__matrix[i][y] = 0;
 						
-						ui.renderCell(i, y, 0);
-						ui.renderCell(i-1, y, this.__matrix[i-1][y]);
+						await ui.renderCell(i-1, y, this.__matrix[i-1][y]);
+						await utils.sleep(MOVE_DELAY);
+						await ui.renderCell(i, y, 0);
+						
 					}
 					else
 					{
@@ -291,13 +297,13 @@ var matrix = {
 			
 		}
 	},
-	moveUp: function(){
+	moveUp: async function(){
 		var size = this.__matrix.length;
 		
 		// oszlopok	
 		for(var y = 0; y <= size-1; y++)
 		{
-			this.removeZeroUp(y);
+			await this.removeZeroUp(y);
 			
 			for(var i = 0; i <= size-1; i++)
 			{
@@ -308,15 +314,15 @@ var matrix = {
 					
 					ui.score+= this.__matrix[i][y];
 					
-					ui.renderCell(i, y, this.__matrix[i][y]);
-					ui.renderCell(i+1, y, 0);
+					await ui.renderCell(i, y, this.__matrix[i][y]);
+					await ui.renderCell(i+1, y, 0);
 					
-					this.removeZeroUp(y);
+					await this.removeZeroUp(y);
 				}
 			}	
 		}
 	},
-	removeZeroDown: function(y){
+	removeZeroDown: async function(y){
 		var size = this.__matrix.length;
 		
 			var column = utils.extractColumn(this.__matrix, y);
@@ -338,8 +344,10 @@ var matrix = {
 							this.__matrix[i+1][y] = this.__matrix[i][y];
 							this.__matrix[i][y] = 0;
 							
-							ui.renderCell(i, y, 0);
-							ui.renderCell(i+1, y, this.__matrix[i+1][y]);
+							await ui.renderCell(i+1, y, this.__matrix[i+1][y]);
+							await utils.sleep(MOVE_DELAY);
+							await ui.renderCell(i, y, 0);
+							
 						}
 						else
 						{
@@ -357,13 +365,13 @@ var matrix = {
 				
 			}
 	},
-	moveDown: function(){
+	moveDown: async function(){
 		var size = this.__matrix.length;
 		
 		// oszlopok	
 		for(var y = 0; y <= size-1; y++)
 		{
-			this.removeZeroDown(y);
+			await this.removeZeroDown(y);
 
 			for(var i = size-1; i >= 0; i--)
 			{
@@ -374,10 +382,10 @@ var matrix = {
 					
 					ui.score+= this.__matrix[i][y];
 					
-					ui.renderCell(i, y, this.__matrix[i][y]);
-					ui.renderCell(i-1, y, 0);
-					
-					this.removeZeroDown(y);
+					await ui.renderCell(i, y, this.__matrix[i][y]);
+					await ui.renderCell(i-1, y, 0);
+
+					await this.removeZeroDown(y);
 				}
 
 			}	

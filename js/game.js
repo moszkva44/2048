@@ -1,10 +1,41 @@
+const LEFT_MOVE=1;
+const RIGHT_MOVE=2;
+const UP_MOVE = 3;
+const DOWN_MOVE = 4;
+
 var game = {
 	__prevState: false,
 	
 	getBackupPoint: function(){
 		return this.__prevState;
 	},	
-	new: function(){
+	handleUserAction: async function(direction){
+		this.createBackupPoint();
+
+		switch (direction) {
+			case LEFT_MOVE:			
+				await matrix.moveLeft();			
+				break;
+			case RIGHT_MOVE:
+				await  matrix.moveRight();			
+				break;
+			case UP_MOVE:
+				await  matrix.moveUp();			
+				break;
+			case DOWN_MOVE:
+				await  matrix.moveDown();			
+				break;
+		}
+
+		if(this.getBackupPoint().matrix!=JSON.stringify(matrix.getMatrix()))
+		{
+			await  matrix.populate();
+		}
+			
+		ui.renderScore();
+		this.createSnapshot();		
+	},
+	startNew: function(){
 		if(localStorage.getItem("matrix") && localStorage.getItem("score")){
 			matrix.setMatrix(JSON.parse(localStorage.getItem("matrix")));
 			ui.score = parseInt(localStorage.getItem("score"));

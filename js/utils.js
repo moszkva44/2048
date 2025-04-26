@@ -1,3 +1,5 @@
+
+
 var utils = {
 	getRandomValue: function(){
 		var values = [2,2,4,2,2,4,2,2];
@@ -11,6 +13,9 @@ var utils = {
 	
 	extractColumn: function(arr, column){
 		return arr.map(x => x[column])
+	},
+	sleep: function(ms) { 
+		return new Promise(res => setTimeout(res, ms)); 
 	}
 	
 };
