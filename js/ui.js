@@ -47,7 +47,5 @@ var ui = {
 	},
 	renderScore: function(){
 		document.getElementById('score').innerHTML = "<b>Score: " + this.score + "</b>";
-	}	
-		
-	
+	}
 };

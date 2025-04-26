@@ -131,6 +131,7 @@ var matrix = {
 		var lastPosition = -1;
 		var searchIndex = -1;
 
+		
 		while((searchIndex = this.getLastNotNullPosition(this.__matrix[x])) > -1)
 		{
 			if(searchIndex!=lastPosition)
@@ -166,29 +167,37 @@ var matrix = {
 	moveRight: async function(){
 		var size = this.__matrix.length;
 		
+		var fn = [];
+		
 		for(var x = 0; x <= size-1; x++)
 		{
-			await this.removeZeroRight(x);
-
-			for(var i = size-1; i >= 0; i--)
-			{
-				if(i > 0 && this.__matrix[x][i]==this.__matrix[x][i-1])
-				{
-					this.__matrix[x][i] = this.__matrix[x][i] * 2;
-					this.__matrix[x][i-1] = 0;
-					
-					ui.score+= this.__matrix[x][i];
-					
-					await ui.renderCell(x, i-1, 0);
-					await ui.renderCell(x, i, this.__matrix[x][i]);
-					
-					
-					await this.removeZeroRight(x);
-				}
-			}
-
+			fn.push(this.moveRowRight(x));
 		}
+		
+		await Promise.all(fn);
 	},
+
+	moveRowRight: async function(x){
+		var size = this.__matrix.length;
+		
+		await this.removeZeroRight(x);
+
+		for(var i = size-1; i >= 0; i--)
+		{
+			if(i > 0 && this.__matrix[x][i]==this.__matrix[x][i-1])
+			{
+				this.__matrix[x][i] = this.__matrix[x][i] * 2;
+				this.__matrix[x][i-1] = 0;
+				
+				ui.score+= this.__matrix[x][i];
+				
+				await ui.renderCell(x, i-1, 0);
+				await ui.renderCell(x, i, this.__matrix[x][i]);
+				
+				await this.removeZeroRight(x);
+			}
+		}
+	},	
 	removeZeroLeft: async function(x){
 		var size = this.__matrix.length;
 		
@@ -227,33 +236,43 @@ var matrix = {
 			
 		}
 	},
+	
 	moveLeft: async function()
 	{
 		var size = this.__matrix.length;
 		
+		var fn = [];
+		
 		for(var x = 0; x <= size-1; x++)
-		{	
-			await this.removeZeroLeft(x);
-			
-			for(var i = 0; i <= size-1; i++)
-			{
-				if(i < size-1 && this.__matrix[x][i]==this.__matrix[x][i+1])
-				{
-					this.__matrix[x][i] = this.__matrix[x][i] * 2;
-					this.__matrix[x][i+1] = 0;
-					
-					ui.score+= this.__matrix[x][i];
-					
-					await ui.renderCell(x, i, this.__matrix[x][i]);
-					await ui.renderCell(x, i+1, 0);
-					
-					await this.removeZeroLeft(x);			
-				}
-			}
-
+		{
+			fn.push(this.moveRowLeft(x));
 		}
-
+		
+		await Promise.all(fn);		
 	},
+
+	moveRowLeft: async function(x)
+	{
+		var size = this.__matrix.length;
+		
+		await this.removeZeroLeft(x);
+		
+		for(var i = 0; i <= size-1; i++)
+		{
+			if(i < size-1 && this.__matrix[x][i]==this.__matrix[x][i+1])
+			{
+				this.__matrix[x][i] = this.__matrix[x][i] * 2;
+				this.__matrix[x][i+1] = 0;
+				
+				ui.score+= this.__matrix[x][i];
+				
+				await ui.renderCell(x, i, this.__matrix[x][i]);
+				await ui.renderCell(x, i+1, 0);
+				
+				await this.removeZeroLeft(x);			
+			}
+		}
+	},	
 	removeZeroUp: async function(y){
 		var size = this.__matrix.length;
 		
@@ -297,31 +316,42 @@ var matrix = {
 			
 		}
 	},
+	
 	moveUp: async function(){
 		var size = this.__matrix.length;
 		
+		var fn = [];
+		
 		// oszlopok	
 		for(var y = 0; y <= size-1; y++)
-		{
-			await this.removeZeroUp(y);
-			
-			for(var i = 0; i <= size-1; i++)
-			{
-				if(i < size-1 && this.__matrix[i][y]==this.__matrix[i+1][y])
-				{
-					this.__matrix[i][y] = this.__matrix[i][y] * 2;
-					this.__matrix[i+1][y] = 0;
-					
-					ui.score+= this.__matrix[i][y];
-					
-					await ui.renderCell(i, y, this.__matrix[i][y]);
-					await ui.renderCell(i+1, y, 0);
-					
-					await this.removeZeroUp(y);
-				}
-			}	
+		{	
+			fn.push(this.moveRowUp(y));			
 		}
+		
+		await Promise.all(fn);			
 	},
+
+	moveRowUp: async function(y){
+		var size = this.__matrix.length;
+		
+		await this.removeZeroUp(y);
+		
+		for(var i = 0; i <= size-1; i++)
+		{
+			if(i < size-1 && this.__matrix[i][y]==this.__matrix[i+1][y])
+			{
+				this.__matrix[i][y] = this.__matrix[i][y] * 2;
+				this.__matrix[i+1][y] = 0;
+				
+				ui.score+= this.__matrix[i][y];
+				
+				await ui.renderCell(i, y, this.__matrix[i][y]);
+				await ui.renderCell(i+1, y, 0);
+				
+				await this.removeZeroUp(y);
+			}
+		}	
+	},	
 	removeZeroDown: async function(y){
 		var size = this.__matrix.length;
 		
@@ -368,30 +398,37 @@ var matrix = {
 	moveDown: async function(){
 		var size = this.__matrix.length;
 		
+		var fn = [];
+		
 		// oszlopok	
 		for(var y = 0; y <= size-1; y++)
-		{
-			await this.removeZeroDown(y);
-
-			for(var i = size-1; i >= 0; i--)
-			{
-				if(i > 0 && this.__matrix[i][y]==this.__matrix[i-1][y])
-				{
-					this.__matrix[i][y] = this.__matrix[i][y] * 2;
-					this.__matrix[i-1][y] = 0;
-					
-					ui.score+= this.__matrix[i][y];
-					
-					await ui.renderCell(i, y, this.__matrix[i][y]);
-					await ui.renderCell(i-1, y, 0);
-
-					await this.removeZeroDown(y);
-				}
-
-			}	
-
+		{	
+			fn.push(this.moveRowDown(y));			
 		}
-	}	
+		
+		await Promise.all(fn);			
+	},
+	moveRowDown: async function(y){
+		var size = this.__matrix.length;
+		
+		await this.removeZeroDown(y);
 
+		for(var i = size-1; i >= 0; i--)
+		{
+			if(i > 0 && this.__matrix[i][y]==this.__matrix[i-1][y])
+			{
+				this.__matrix[i][y] = this.__matrix[i][y] * 2;
+				this.__matrix[i-1][y] = 0;
+				
+				ui.score+= this.__matrix[i][y];
+				
+				await ui.renderCell(i, y, this.__matrix[i][y]);
+				await ui.renderCell(i-1, y, 0);
+
+				await this.removeZeroDown(y);
+			}
+
+		}	
+	}		
 	
 };

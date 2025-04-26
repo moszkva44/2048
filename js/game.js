@@ -29,7 +29,7 @@ var game = {
 
 		if(this.getBackupPoint().matrix!=JSON.stringify(matrix.getMatrix()))
 		{
-			await  matrix.populate();
+			await matrix.populate();
 		}
 			
 		ui.renderScore();
