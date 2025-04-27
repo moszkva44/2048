@@ -67,7 +67,76 @@ var ui = {
 		}, 3000);
 	},	
 	hideGameOver: function(){
-		document.getElementById('game_over').style.display = "none";
-	}	
+		document.getElementById('game_over').style = '';
+		document.getElementById('game_over').innerHTML = 'Game over';		
+	},
+	handlers: {
+		keyDownHandler: function(event){
+			const key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
+			
+			switch (event.key) {
+				case "ArrowLeft":			
+					game.handleUserAction(MOVE.LEFT);
+					break;
+				case "ArrowRight":	
+					game.handleUserAction(MOVE.RIGHT);				
+					break;
+				case "ArrowUp":
+					game.handleUserAction(MOVE.UP);
+					break;
+				case "ArrowDown":
+					game.handleUserAction(MOVE.DOWN);
+					break;
+			}
+		},
+		xDown: null,                                                        
+		yDown: null,
+		getTouches: function(evt) {
+		  return evt.touches ||        // browser API
+			evt.originalEvent.touches; // jQuery
+		},
+		handleTouchStart: function(evt) {
+			const firstTouch = ui.handlers.getTouches(evt)[0];                                      
+			this.xDown = firstTouch.clientX;                                      
+			this.yDown = firstTouch.clientY;                                      
+		},
+		handleTouchMove: function(evt) {
+			if ( ! this.xDown || ! this.yDown ) {
+				return;
+			}
+
+			var xUp = evt.touches[0].clientX;                                    
+			var yUp = evt.touches[0].clientY;
+
+			var xDiff = this.xDown - xUp;
+			var yDiff = this.yDown - yUp;
+
+			if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+				if ( xDiff > 0 ) {
+					/* right swipe */ 
+					game.handleUserAction(MOVE.LEFT);
+					
+				} else {
+					/* left swipe */
+					game.handleUserAction(MOVE.RIGHT);				
+				}                       
+			} else {
+				if ( yDiff > 0 ) {
+					/* down swipe */ 
+					game.handleUserAction(MOVE.UP);
+				} else { 
+					/* up swipe */
+					game.handleUserAction(MOVE.DOWN);
+				}                                                                 
+			}
+			/* reset values */
+			this.xDown = null;
+			this.yDown = null;     
+
+			evt.preventDefault();
+		}		
+
+		
+	}
 	
 };
