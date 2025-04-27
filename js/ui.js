@@ -46,7 +46,7 @@ var ui = {
 		this.init();
 	},
 	renderScore: function(){
-		document.getElementById('score').innerHTML = "<b>Score: " + this.score + "</b>";
+		document.getElementById('score').innerHTML = "Score: " + this.score;
 	},
 	renderGameOver: function(){
 		var pos = document.getElementById('grid').getBoundingClientRect();

@@ -10,14 +10,16 @@
 		<script src="js/tests.js"></script>
 	</head>
 	<body>
-		<input type="button" id="resetButton" value="New game"/>
-		<input type="button" id="undoButton" value="Undo move"/>
-		<select id="size_selector">
-			<option value="6">6x6</option>
-			<option value="5" selected>5x5</option>
-			<option value="4">4x4</option>
-		</select>
-		<div id="score"></div>
+		<div id="menu">
+			<input type="button" id="resetButton" value="New game"/>
+			<input type="button" id="undoButton" value="Undo move"/>
+			<select id="size_selector">
+				<option value="6">6x6</option>
+				<option value="5" selected>5x5</option>
+				<option value="4">4x4</option>
+			</select>
+			<span id="score"></span>
+		</div>
 		<div id="matrix"></div>
 		<div id="game_over">Game over</div>
 	</body>
