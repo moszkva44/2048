@@ -19,10 +19,9 @@ var matrix = {
 			}
 		}
 	},
-	populate: async function()
-	{
+	getFreePlaces: function(){
 		var seq = 0;
-		var potentialPlaces = [];
+		var places = [];
 		var size = this.__matrix.length;
 				
 		for(var x = 0; x <= size-1; x++)
@@ -31,21 +30,22 @@ var matrix = {
 			{
 				if(this.__matrix[x][y]==0)
 				{
-					potentialPlaces.push(seq);
+					places.push(seq);
 				}
 				
 				seq++;
 			}
-		}
+		}		
 		
-		if(potentialPlaces.length==0)
-		{
-			if(!this.checkDoubleNeighbor())
-			{
-				alert('Game over :-(');
-			}
-		} 
-		else 
+		return places;
+	},
+	addNewTile: async function()
+	{
+		var seq = 0;
+		var potentialPlaces = this.getFreePlaces();
+		var size = this.__matrix.length;
+				
+		if(potentialPlaces.length > 0) 
 		{
 			var newNumber = potentialPlaces[utils.getRandomArbitrary(0, potentialPlaces.length-1)];
 			
@@ -66,7 +66,7 @@ var matrix = {
 			}		
 		}
 	},
-	checkDoubleNeighbor: function()
+	doesMergableCellsExist: function()
 	{
 		var size = this.__matrix.length;
 		

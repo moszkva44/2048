@@ -20,8 +20,36 @@ var tests = {
 		await this.testChangeCheckingAfterRightMove([[0,0,0,0,0],[0,0,0,0,0], [0,0,2,0,0], [0,0,0,0,0], [2,4,8,2,4]]);
 		await this.testChangeCheckingAfterDownMove([[0,0,0,0,0],[0,0,0,0,0], [0,0,2,0,0], [0,0,0,0,0], [2,4,8,2,4]]);
 		await this.testChangeCheckingAfterUpMove([[0,0,0,0,0],[0,0,0,0,0], [0,0,2,0,0], [0,0,0,0,0], [2,4,8,2,4]]);
+		
+		
+		await this.testDoesMergableCellsExist([[0,2,0,2,0],[2,0,2,0,2], [0,2,0,2,0], [2,0,2,0,2], [0,2,0,2,0]], false);
+		await this.testDoesMergableCellsExist([[0,2,0,2,0],[2,0,2,0,2], [0,2,0,2,0], [2,0,2,4,2], [0,2,0,4,0]], true);
 				
 	},
+	
+	testDoesMergableCellsExist: async function(input, expected_output)
+	{
+		matrix.setMatrix(input);
+		
+		game.createBackupPoint();
+		
+		var result = await matrix.doesMergableCellsExist();
+		
+		if(result!=expected_output)
+		{
+			console.log('Test failed! testDoesMergableCellsExist()');
+			console.log('input:');
+			console.log(input);
+			console.log('Expected output:');
+			console.log(expected_output);
+			console.log('Output:');
+			console.log(result);			
+		}
+		else
+		{
+			console.log('Test passed! testDoesMergableCellsExist()');
+		}
+	},	
 	
 	testChangeCheckingAfterLeftMove: async function(input)
 	{
@@ -55,7 +83,7 @@ var tests = {
 		{
 			console.log('Test failed! testChangeChecking() after right move');
 			console.log('input:');
-			console.log(input);
+			console.log(input);			
 		}
 		else
 		{

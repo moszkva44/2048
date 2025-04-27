@@ -26,19 +26,19 @@ function handleTouchMove(evt) {
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
         if ( xDiff > 0 ) {
             /* right swipe */ 
-			game.createBackupPoint(game.handleUserAction(LEFT_MOVE));
+			game.createBackupPoint(game.handleUserAction(MOVE.LEFT));
 			
         } else {
             /* left swipe */
-			game.createBackupPoint(game.handleUserAction(RIGHT_MOVE));				
+			game.createBackupPoint(game.handleUserAction(MOVE.RIGHT));				
         }                       
     } else {
         if ( yDiff > 0 ) {
             /* down swipe */ 
-			game.createBackupPoint(game.handleUserAction(UP_MOVE));
+			game.createBackupPoint(game.handleUserAction(MOVE.UP));
         } else { 
             /* up swipe */
-			game.createBackupPoint(game.handleUserAction(DOWN_MOVE));
+			game.createBackupPoint(game.handleUserAction(MOVE.DOWN));
         }                                                                 
     }
     /* reset values */
@@ -78,16 +78,16 @@ else
 		
 		switch (event.key) {
 			case "ArrowLeft":			
-				game.handleUserAction(LEFT_MOVE);
+				game.handleUserAction(MOVE.LEFT);
 				break;
 			case "ArrowRight":	
-				game.handleUserAction(RIGHT_MOVE);				
+				game.handleUserAction(MOVE.RIGHT);				
 				break;
 			case "ArrowUp":
-				game.handleUserAction(UP_MOVE);
+				game.handleUserAction(MOVE.UP);
 				break;
 			case "ArrowDown":
-				game.handleUserAction(DOWN_MOVE);
+				game.handleUserAction(MOVE.DOWN);
 				break;
 		}
 	});

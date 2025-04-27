@@ -25,7 +25,7 @@ var ui = {
 		cell.innerHTML = (v==0 ? '&nbsp' : v);		
 	},
 	renderMatrix: function(){
-		var content = "<table>";
+		var content = "<table id=\"\grid\">";
 		
 		for(var i=0; i<=matrix.getMatrix().length-1; i++)
 		{
@@ -47,5 +47,27 @@ var ui = {
 	},
 	renderScore: function(){
 		document.getElementById('score').innerHTML = "<b>Score: " + this.score + "</b>";
-	}
+	},
+	renderGameOver: function(){
+		var pos = document.getElementById('grid').getBoundingClientRect();
+		
+		document.getElementById('game_over').style.top = pos['top'];
+		document.getElementById('game_over').style.left = pos['left'];		
+		document.getElementById('game_over').style.width = pos['width'] +  "px";
+		document.getElementById('game_over').style.height = pos['height'] +  "px";	
+		document.getElementById('game_over').style.lineHeight = pos['height'] +  "px";		
+		document.getElementById('game_over').style.display = "block";
+		
+		setTimeout(function(){
+			document.getElementById('game_over').style.backgroundImage = 'url("img/game_over.png")';
+			document.getElementById('game_over').style.backgroundSize ='100% 100%';
+			document.getElementById('game_over').style.opacity = "100";
+			document.getElementById('game_over').innerHTML = '';		
+			
+		}, 3000);
+	},	
+	hideGameOver: function(){
+		document.getElementById('game_over').style.display = "none";
+	}	
+	
 };
