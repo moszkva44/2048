@@ -33,7 +33,7 @@ var ui = {
 			
 			for(var j=0; j<=matrix.getMatrix()[i].length-1; j++)
 			{
-				content+="<td id=\"cell[" + i + "," + j + "]\" style=\"transition: all; transition-duration: 0.1s;\" class=\"cell cell" + matrix.getMatrix()[i][j] + "\">" + (matrix.getMatrix()[i][j]==0 ? "&nbsp;" : matrix.getMatrix()[i][j])+ "</td>";
+				content+="<td id=\"cell[" + i + "," + j + "]\" style=\"transition: all; transition-duration: 0.0s;\" class=\"cell cell" + matrix.getMatrix()[i][j] + "\">" + (matrix.getMatrix()[i][j]==0 ? "&nbsp;" : matrix.getMatrix()[i][j])+ "</td>";
 			}
 			
 			content+"</tr>";
