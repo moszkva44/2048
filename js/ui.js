@@ -4,36 +4,33 @@ var ui = {
 	score: 0,
 	__cells: [],
 	init: function(){
+		var size = matrix.getMatrix().length;
+		
 		this.__cells = [];
-		for(var i=0; i<=matrix.getMatrix().length-1; i++)
+
+		for(var i=0; i<=size-1; i++)
 		{
 			var row = [];
 			
-			for(var j=0; j<=matrix.getMatrix()[i].length-1; j++)
+			for(var j=0; j<=size-1; j++)
 			{
 				row.push(document.getElementById('cell[' + i + ',' + j + ']'));
 			}
 			
 			this.__cells.push(row);
 		}
-				
-	},
-	renderCell: async function(x, y, v){
-		var cell = this.__cells[x][y];
-		
-		cell.className = "cell cell" + v;
-		cell.innerHTML = (v==0 ? '&nbsp' : v);		
 	},
 	renderMatrix: function(){
+		var size = matrix.getMatrix().length;
 		var content = "<table id=\"\grid\">";
 		
-		for(var i=0; i<=matrix.getMatrix().length-1; i++)
+		for(var i=0; i<=size-1; i++)
 		{
 			content+="<tr>";
 			
-			for(var j=0; j<=matrix.getMatrix()[i].length-1; j++)
+			for(var j=0; j<=size-1; j++)
 			{
-				content+="<td id=\"cell[" + i + "," + j + "]\" style=\"transition: all; transition-duration: 0.0s;\" class=\"cell cell" + matrix.getMatrix()[i][j] + "\">" + (matrix.getMatrix()[i][j]==0 ? "&nbsp;" : matrix.getMatrix()[i][j])+ "</td>";
+				content+="<td id=\"cell[" + i + "," + j + "]\" class=\"cell cell0\"> &nbsp;</td>";
 			}
 			
 			content+"</tr>";
@@ -41,10 +38,18 @@ var ui = {
 		
 		content+="</table>";
 		
-		document.getElementById('matrix').innerHTML = content;
-		
+		document.getElementById('matrix').innerHTML = content;	
+
 		this.init();
-	},
+		
+		for(var i=0; i<=size-1; i++)
+		{
+			for(var j=0; j<=size-1; j++)
+			{
+				ui.renderTile(i, j);   
+			}			
+		}
+	},	
 	renderScore: function(){
 		document.getElementById('score').innerHTML = "Score: " + this.score;
 	},
@@ -64,30 +69,40 @@ var ui = {
 			document.getElementById('game_over').style.opacity = "100";
 			document.getElementById('game_over').innerHTML = '';		
 			
-		}, 3000);
+		}, 1500);
 	},	
 	hideGameOver: function(){
 		document.getElementById('game_over').style = '';
 		document.getElementById('game_over').innerHTML = 'Game over';		
 	},
+	
 	handlers: {
-		keyDownHandler: function(event){
-			const key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
+		__eventLocked: false, 
+		getMoveFromEvent: function(e){
+			var move = '';
 			
-			switch (event.key) {
+			switch (e.key) {
 				case "ArrowLeft":			
-					game.handleUserAction(MOVE.LEFT);
+					move = MOVE.LEFT;
 					break;
 				case "ArrowRight":	
-					game.handleUserAction(MOVE.RIGHT);				
+					move = MOVE.RIGHT;				
 					break;
 				case "ArrowUp":
-					game.handleUserAction(MOVE.UP);
+					move = MOVE.UP;
 					break;
 				case "ArrowDown":
-					game.handleUserAction(MOVE.DOWN);
+					move = MOVE.DOWN;
 					break;
-			}
+			}			
+			
+			return move;
+		},		
+		keyDownHandler: async function(event){
+			event.preventDefault();
+			event.stopPropagation();		
+			return await game.handleUserAction(ui.handlers.getMoveFromEvent(event));
+			
 		},
 		xDown: null,                                                        
 		yDown: null,
@@ -100,7 +115,12 @@ var ui = {
 			this.xDown = firstTouch.clientX;                                      
 			this.yDown = firstTouch.clientY;                                      
 		},
-		handleTouchMove: function(evt) {
+		handleTouchMove: async function(evt) {
+			event.preventDefault();
+			event.stopPropagation();	
+
+			var promises = [];
+			
 			if ( ! this.xDown || ! this.yDown ) {
 				return;
 			}
@@ -114,29 +134,87 @@ var ui = {
 			if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
 				if ( xDiff > 0 ) {
 					/* right swipe */ 
-					game.handleUserAction(MOVE.LEFT);
+					promises.push(game.handleUserAction(MOVE.LEFT));
 					
 				} else {
 					/* left swipe */
-					game.handleUserAction(MOVE.RIGHT);				
+					promises.push(game.handleUserAction(MOVE.RIGHT));				
 				}                       
 			} else {
 				if ( yDiff > 0 ) {
 					/* down swipe */ 
-					game.handleUserAction(MOVE.UP);
+					promises.push(game.handleUserAction(MOVE.UP));
 				} else { 
 					/* up swipe */
-					game.handleUserAction(MOVE.DOWN);
+					promises.push(game.handleUserAction(MOVE.DOWN));
 				}                                                                 
 			}
 			/* reset values */
 			this.xDown = null;
 			this.yDown = null;     
 
-			evt.preventDefault();
+			return await Promise.all(promises);
 		}		
 
 		
+	},
+	
+	createTileElement: function(v){
+		var element = document.createElement('div');
+		
+		element.className='tile';
+		
+		if(v > 0){
+			element.className+=" cell" + v;
+		} else{
+			element.className+=" tile0";
+		}
+		
+		element.innerHTML = v;
+		
+		document.body.appendChild(element);		
+		
+		return element;
+	},
+	renderTile: async function(x, y){
+		var tile = matrix.getMatrix()[x][y];
+		var pos = this.__cells[x][y].getBoundingClientRect();
+		
+		tile.getElement().style.top = pos['top'];
+		tile.getElement().style.left = pos['left'];	
+	},
+	
+	moveTile: async function(fromX, fromY, toX, toY){
+		var tile = matrix.getMatrix()[fromX][fromY];
+		var tmp = matrix.getMatrix()[toX][toY];
+		var pos = this.__cells[toX][toY].getBoundingClientRect();
+		
+		tile.getElement().style.top = pos['top'];
+		tile.getElement().style.left = pos['left'];
+
+		matrix.getMatrix()[toX][toY] = tile;
+		
+		var pos = this.__cells[fromX][fromY].getBoundingClientRect();
+		
+		tmp.getElement().style.top = pos['top'];
+		tmp.getElement().style.left = pos['left'];
+		
+		matrix.getMatrix()[fromX][fromY] = tmp;
+	},
+	
+	changeTile: async function(x, y, v){
+		var tile = matrix.getMatrix()[x][y];
+		
+		tile.setValue(v);
+	
+		if(v > 0){
+			tile.getElement().className ="tile cell" + v;
+		} else{
+			tile.getElement().className+="tile";
+		}
+		
+		tile.getElement().innerHTML = v==0 ? '' : v;
+
 	}
 	
 };

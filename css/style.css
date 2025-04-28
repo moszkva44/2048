@@ -15,18 +15,20 @@
 .cell2{
 	color: black;
 	font-size: 2rem;
-	background-color: rgb(238, 228, 218);
+	background-color: rgb(238, 228, 218);	
 }
 
 .cell4{
 	color: black;
 	font-size: 2rem;
 	background-color: rgb(237, 224, 200);
+
 }
 
 .cell8{
 	font-size: 2rem;
 	background-color: rgb(242, 177, 121);
+	
 }
 
 .cell16{
@@ -162,8 +164,8 @@ tr{
 td{
    /*border: 0.1rem solid black;*/
    border-spacing: 0;
-   height: 5rem;
-   width: 5rem;
+   height: 4rem;
+   width: 4rem;
    margin: 0; 
    padding: 0;  
    spacing: 0.1rem;
@@ -199,3 +201,29 @@ select{
 div#menu{
 	padding: 0.3rem;
 }
+
+/* tile classes */
+div.tile{
+   border-spacing: 0;
+   height: 4rem;
+   width: 4rem;
+   line-height: 4rem;
+   padding: 0;  
+   spacing: 0.1rem;
+   text-align: center;
+   v-align: middle;
+   z-index: 100;
+   position: absolute;
+   transition-property: top, left;
+   transition-duration: 0.25s;
+   font-weight:bold;
+   mix-blend-mode: multiply;
+}
+
+div.tile0{
+	opacity: 0;
+}
+
+
+
+

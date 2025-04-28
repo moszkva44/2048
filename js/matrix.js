@@ -1,11 +1,39 @@
 var matrix = {
 	__matrix: [],
 	setMatrix: function(matrix){
-		this.__matrix = matrix;
+		var size = matrix.length;
+		
+		this.__matrix = [];
+		
+		for(var x = 0; x <= size-1; x++)
+		{
+			this.__matrix[x] = [];
+			
+			for(var y = 0; y <= size-1; y++)
+			{
+				this.__matrix[x][y] = new Tile(ui.createTileElement(matrix[x][y]), matrix[x][y]);
+			}
+		}
 	},
 	getMatrix: function(){
 		return this.__matrix;
 	},
+	getMatrixInArray: function(){
+		var size = this.__matrix.length;
+		var matrix = [];
+		
+		for(var x = 0; x <= size-1; x++)
+		{
+			matrix[x] = [];
+			
+			for(var y = 0; y <= size-1; y++)
+			{
+				matrix[x][y] = this.__matrix[x][y].getValue();
+			}
+		}
+		
+		return matrix;
+	},	
 	init: function(i){
 		this.__matrix = [];
 		
@@ -15,20 +43,32 @@ var matrix = {
 			
 			for(var y = 0; y <= i-1; y++)
 			{
-				this.__matrix[x][y] = 0;
+				this.__matrix[x][y] = new Tile(ui.createTileElement(0), 0);
 			}
 		}
 	},
-	getFreePlaces: function(){
-		var seq = 0;
-		var places = [];
+	destroyElements: function(){
 		var size = this.__matrix.length;
-				
+		
 		for(var x = 0; x <= size-1; x++)
 		{
 			for(var y = 0; y <= size-1; y++)
 			{
-				if(this.__matrix[x][y]==0)
+				document.body.removeChild(this.__matrix[x][y].getElement());
+				this.__matrix[x][y] = null;
+			}
+		}
+	},	
+	getFreePlaces: function(){
+		var seq = 0;
+		var places = [];
+		var size = this.__matrix.length;
+	
+		for(var x = 0; x <= size-1; x++)
+		{
+			for(var y = 0; y <= size-1; y++)
+			{
+				if(this.__matrix[x][y].getValue()==0)
 				{
 					places.push(seq);
 				}
@@ -44,7 +84,7 @@ var matrix = {
 		var seq = 0;
 		var potentialPlaces = this.getFreePlaces();
 		var size = this.__matrix.length;
-				
+		
 		if(potentialPlaces.length > 0) 
 		{
 			var newNumber = potentialPlaces[utils.getRandomArbitrary(0, potentialPlaces.length-1)];
@@ -57,14 +97,20 @@ var matrix = {
 				{
 					if(seq==newNumber)
 					{
-						this.__matrix[x][y] = utils.getRandomValue();
-						await ui.renderCell(x, y, this.__matrix[x][y]);
+						await ui.changeTile(x, y, utils.getRandomValue());
 					}
 					
 					seq++;
 				}
 			}		
 		}
+	},
+	addNewTileAfterChange: async function(){
+		/*
+		if(game.getBackupPoint().matrix!==JSON.stringify(this.getMatrixInArray())){
+			await this.addNewTile();
+		}
+		*/
 	},
 	doesMergableCellsExist: function()
 	{
@@ -74,7 +120,7 @@ var matrix = {
 		{
 			for(var y = 0; y <= size-1; y++)
 			{
-				if(y < size-1 && this.__matrix[x][y]==this.__matrix[x][y+1] && this.__matrix[x][y] > 0)
+				if(y < size-1 && this.__matrix[x][y].getValue()==this.__matrix[x][y+1].getValue() && this.__matrix[x][y].getValue() > 0)
 				{
 					return true;
 				}
@@ -85,7 +131,7 @@ var matrix = {
 		{
 			for(var x = 0; x <= size-1; x++)
 			{
-				if(x < size-1 && this.__matrix[x][y]==this.__matrix[x+1][y] && this.__matrix[x][y] > 0)
+				if(x < size-1 && this.__matrix[x][y].getValue()==this.__matrix[x+1][y].getValue() && this.__matrix[x][y].getValue() > 0)
 				{
 					return true;
 				}
@@ -101,14 +147,15 @@ var matrix = {
 		
 		for(var i = 0; i <= size-1; i++)
 		{
-			if(vector[i] > 0 && i < size-1 && vector[i+1]==0)
+			if(vector[i].getValue() > 0 && i < size-1 && vector[i+1].getValue()==0)
 			{
 				pos = i;
 			}
 		}	
 
 		return pos;
-	},
+	},	
+	
 	getFirstNotNullPosition: function(vector){
 		var size = vector.length;
 		
@@ -116,7 +163,7 @@ var matrix = {
 		
 		for(var i = size-1; i >= 0; i--)
 		{
-			if(vector[i] > 0 && i > 0 && vector[i-1]==0)
+			if(vector[i].getValue() > 0 && i > 0 && vector[i-1].getValue()==0)
 			{
 				pos = i;
 			}
@@ -130,21 +177,17 @@ var matrix = {
 		var lastPosition = -1;
 		var searchIndex = -1;
 
+		var promises = [];
 		
 		while((searchIndex = this.getLastNotNullPosition(this.__matrix[x])) > -1)
 		{
 			if(searchIndex!=lastPosition)
 			{
-				for(var i=searchIndex; i <= size-1; i++)
+				for(var i=searchIndex; i < size-1; i++)
 				{
-					if(this.__matrix[x][i+1]==0)
+					if(this.__matrix[x][i+1].getValue()==0)
 					{
-						this.__matrix[x][i+1] = this.__matrix[x][i];
-						this.__matrix[x][i] = 0;
-
-						await ui.renderCell(x, i+1, this.__matrix[x][i+1]);
-						await utils.sleep(MOVE_DELAY);
-						await ui.renderCell(x, i, 0);
+						promises.push(ui.moveTile(x, i, x, i + 1));
 					}
 					else
 					{
@@ -161,8 +204,10 @@ var matrix = {
 			}
 			
 		}
+		
+		await Promise.all(promises);	
 
-	},
+	},	
 	moveRight: async function(){
 		var size = this.__matrix.length;
 		
@@ -173,51 +218,49 @@ var matrix = {
 			fn.push(this.moveRowRight(x));
 		}
 		
-		await Promise.all(fn);
+		await Promise.all(fn);	
 	},
 
 	moveRowRight: async function(x){
 		var size = this.__matrix.length;
 		
+		var promises = [];
+		
 		await this.removeZeroRight(x);
 
 		for(var i = size-1; i >= 0; i--)
 		{
-			if(i > 0 && this.__matrix[x][i]==this.__matrix[x][i-1])
+			if(i > 0 && this.__matrix[x][i].getValue()==this.__matrix[x][i-1].getValue())
 			{
-				this.__matrix[x][i] = this.__matrix[x][i] * 2;
-				this.__matrix[x][i-1] = 0;
+				promises.push(ui.moveTile(x, i-1, x, i));
+				promises.push(ui.changeTile(x, i, this.__matrix[x][i].getValue() * 2));	
+				promises.push(ui.changeTile(x, i-1, 0));				
 				
-				ui.score+= this.__matrix[x][i];
-				
-				await ui.renderCell(x, i-1, 0);
-				await ui.renderCell(x, i, this.__matrix[x][i]);
-				
-				await this.removeZeroRight(x);
+				ui.score+= this.__matrix[x][i].getValue();
+
+				promises.push(this.removeZeroRight(x));
 			}
 		}
-	},	
+		
+		await Promise.all(promises);
+	},
+
 	removeZeroLeft: async function(x){
 		var size = this.__matrix.length;
 		
 		var lastPosition = -1;
 		var searchIndex = -1;
 
+		var promises = [];
 		while((searchIndex = this.getFirstNotNullPosition(this.__matrix[x])) > -1)
 		{
 			if(searchIndex!=lastPosition)
 			{
-				for(var i=searchIndex; i >= 0; i--)
+				for(var i=searchIndex; i > 0; i--)
 				{
-					if(this.__matrix[x][i-1]==0)
+					if(this.__matrix[x][i-1].getValue()==0)
 					{
-						this.__matrix[x][i-1] = this.__matrix[x][i];
-						this.__matrix[x][i] = 0;
-						
-						await ui.renderCell(x, i-1, this.__matrix[x][i-1]);
-						await utils.sleep(MOVE_DELAY);
-						await ui.renderCell(x, i, 0);
-						
+						promises.push(ui.moveTile(x, i, x, i - 1));
 					}
 					else
 					{
@@ -234,6 +277,8 @@ var matrix = {
 			}
 			
 		}
+		
+		await Promise.all(promises);	
 	},
 	
 	moveLeft: async function()
@@ -254,29 +299,33 @@ var matrix = {
 	{
 		var size = this.__matrix.length;
 		
-		await this.removeZeroLeft(x);
+		await this.removeZeroLeft(x);		
+		
+		var promises = [];
 		
 		for(var i = 0; i <= size-1; i++)
 		{
-			if(i < size-1 && this.__matrix[x][i]==this.__matrix[x][i+1])
-			{
-				this.__matrix[x][i] = this.__matrix[x][i] * 2;
-				this.__matrix[x][i+1] = 0;
+			if(i < size-1 && this.__matrix[x][i].getValue()==this.__matrix[x][i+1].getValue())
+			{				
+				promises.push(ui.moveTile(x, i+1, x, i));
+				promises.push(ui.changeTile(x, i, this.__matrix[x][i].getValue() * 2));	
+				promises.push(ui.changeTile(x, i+1, 0));
 				
-				ui.score+= this.__matrix[x][i];
+				ui.score+= this.__matrix[x][i].getValue();
 				
-				await ui.renderCell(x, i, this.__matrix[x][i]);
-				await ui.renderCell(x, i+1, 0);
-				
-				await this.removeZeroLeft(x);			
+				promises.push(this.removeZeroLeft(x));			
 			}
 		}
+		
+		await Promise.all(promises);
 	},	
 	removeZeroUp: async function(y){
 		var size = this.__matrix.length;
 		
 		var column = utils.extractColumn(this.__matrix, y);
 		
+		var promises = [];
+
 		var lastPosition = -1;
 		var searchIndex = -1;
 
@@ -284,21 +333,15 @@ var matrix = {
 		{
 			if(searchIndex!=lastPosition)
 			{
-				for(var i=searchIndex; i >= 0; i--)
+				for(var i=searchIndex; i > 0; i--)
 				{
-					if(column[i-1]==0)
-					{
+					if(column[i-1].getValue()==0)
+					{			
 						column[i-1] = this.__matrix[i][y];
-						column[i] = 0;						
+						column[i] = new Tile({}, 0);	
 						
-						this.__matrix[i-1][y] = this.__matrix[i][y];
-						this.__matrix[i][y] = 0;
-						
-						await ui.renderCell(i-1, y, this.__matrix[i-1][y]);
-						await utils.sleep(MOVE_DELAY);
-						await ui.renderCell(i, y, 0);
-						
-					}
+						promises.push(ui.moveTile(i - 1, y, i, y));
+					}	
 					else
 					{
 						break;
@@ -314,6 +357,8 @@ var matrix = {
 			}
 			
 		}
+		
+		await Promise.all(promises);
 	},
 	
 	moveUp: async function(){
@@ -333,66 +378,66 @@ var matrix = {
 	moveRowUp: async function(y){
 		var size = this.__matrix.length;
 		
+		var promises = [];
+		
 		await this.removeZeroUp(y);
 		
 		for(var i = 0; i <= size-1; i++)
 		{
-			if(i < size-1 && this.__matrix[i][y]==this.__matrix[i+1][y])
+			if(i < size-1 && this.__matrix[i][y].getValue()==this.__matrix[i+1][y].getValue())
 			{
-				this.__matrix[i][y] = this.__matrix[i][y] * 2;
-				this.__matrix[i+1][y] = 0;
+				promises.push(ui.moveTile(i+1, y, i, y));
+				promises.push(ui.changeTile(i, y, this.__matrix[i][y].getValue() * 2));	
+				promises.push(ui.changeTile(i+1, y, 0));				
 				
-				ui.score+= this.__matrix[i][y];
-				
-				await ui.renderCell(i, y, this.__matrix[i][y]);
-				await ui.renderCell(i+1, y, 0);
-				
-				await this.removeZeroUp(y);
+				ui.score+= this.__matrix[i][y].getValue();
+
+				promises.push(this.removeZeroUp(y));
 			}
-		}	
+		}
+
+		await Promise.all(promises);
 	},	
 	removeZeroDown: async function(y){
 		var size = this.__matrix.length;
 		
-			var column = utils.extractColumn(this.__matrix, y);
-			
-			var lastPosition = -1;
-			var searchIndex = -1;
+		var promises = [];
+	
+		var column = utils.extractColumn(this.__matrix, y);
 		
-			while((searchIndex = this.getLastNotNullPosition(column)) > -1)
+		var lastPosition = -1;
+		var searchIndex = -1;
+	
+		while((searchIndex = this.getLastNotNullPosition(column)) > -1)
+		{
+			if(searchIndex!=lastPosition)
 			{
-				if(searchIndex!=lastPosition)
+				for(var i=searchIndex; i < size -1; i++)
 				{
-					for(var i=searchIndex; i <= size -1; i++)
-					{
-						if(column[i+1]==0)
-						{
-							column[i+1] = this.__matrix[i][y];
-							column[i] = 0;						
-							
-							this.__matrix[i+1][y] = this.__matrix[i][y];
-							this.__matrix[i][y] = 0;
-							
-							await ui.renderCell(i+1, y, this.__matrix[i+1][y]);
-							await utils.sleep(MOVE_DELAY);
-							await ui.renderCell(i, y, 0);
-							
-						}
-						else
-						{
-							break;
-						}
+					if(column[i+1].getValue()==0)
+					{		
+						column[i+1] = this.__matrix[i][y];
+						column[i] = new Tile({}, 0);		
+						
+						promises.push(ui.moveTile(i + 1, y, i, y));
 					}
-
-					lastPosition = searchIndex;
-				} 
-				else
-				{
-					lastPosition = -1;
-					break;
+					else
+					{
+						break;
+					}
 				}
-				
+
+				lastPosition = searchIndex;
+			} 
+			else
+			{
+				lastPosition = -1;
+				break;
 			}
+			
+		}
+		
+		await Promise.all(promises);
 	},
 	moveDown: async function(){
 		var size = this.__matrix.length;
@@ -405,29 +450,31 @@ var matrix = {
 			fn.push(this.moveRowDown(y));			
 		}
 		
-		await Promise.all(fn);			
+		await Promise.all(fn);				
 	},
 	moveRowDown: async function(y){
 		var size = this.__matrix.length;
+		
+		var promises = [];
 		
 		await this.removeZeroDown(y);
 
 		for(var i = size-1; i >= 0; i--)
 		{
-			if(i > 0 && this.__matrix[i][y]==this.__matrix[i-1][y])
+			if(i > 0 && this.__matrix[i][y].getValue()==this.__matrix[i-1][y].getValue())
 			{
-				this.__matrix[i][y] = this.__matrix[i][y] * 2;
-				this.__matrix[i-1][y] = 0;
+				promises.push(ui.moveTile(i-1, y, i, y));
+				promises.push(ui.changeTile(i, y, this.__matrix[i][y].getValue() * 2));	
+				promises.push(ui.changeTile(i-1, y, 0));					
 				
-				ui.score+= this.__matrix[i][y];
-				
-				await ui.renderCell(i, y, this.__matrix[i][y]);
-				await ui.renderCell(i-1, y, 0);
+				ui.score+= this.__matrix[i][y].getValue();
 
-				await this.removeZeroDown(y);
+				promises.push(this.removeZeroDown(y));
 			}
 
-		}	
+		}
+		
+		await Promise.all(promises);
 	}		
 	
 };

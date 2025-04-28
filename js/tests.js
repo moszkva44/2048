@@ -24,7 +24,8 @@ var tests = {
 		
 		await this.testDoesMergableCellsExist([[0,2,0,2,0],[2,0,2,0,2], [0,2,0,2,0], [2,0,2,0,2], [0,2,0,2,0]], false);
 		await this.testDoesMergableCellsExist([[0,2,0,2,0],[2,0,2,0,2], [0,2,0,2,0], [2,0,2,4,2], [0,2,0,4,0]], true);
-				
+		
+		matrix.destroyElements();				
 	},
 	
 	testDoesMergableCellsExist: async function(input, expected_output)
@@ -135,7 +136,7 @@ var tests = {
 	{
 		matrix.setMatrix(input);
 		await matrix.moveLeft();
-		var result = JSON.stringify(matrix.getMatrix());
+		var result = JSON.stringify(matrix.getMatrixInArray());
 		
 		if(result!=JSON.stringify(expected_output))
 		{
@@ -157,7 +158,7 @@ var tests = {
 	{
 		matrix.setMatrix(input);
 		await matrix.moveRight();
-		var result = JSON.stringify(matrix.getMatrix());
+		var result = JSON.stringify(matrix.getMatrixInArray());
 		
 		if(result!=JSON.stringify(expected_output))
 		{
@@ -180,7 +181,7 @@ var tests = {
 	{
 		matrix.setMatrix(input);
 		await matrix.moveUp();
-		var result = JSON.stringify(matrix.getMatrix());
+		var result = JSON.stringify(matrix.getMatrixInArray());
 		
 		if(result!=JSON.stringify(expected_output))
 		{
@@ -202,7 +203,7 @@ var tests = {
 	{
 		matrix.setMatrix(input);
 		await matrix.moveDown();
-		var result = JSON.stringify(matrix.getMatrix());
+		var result = JSON.stringify(matrix.getMatrixInArray());
 		
 		if(result!=JSON.stringify(expected_output))
 		{

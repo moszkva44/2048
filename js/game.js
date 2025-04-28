@@ -2,33 +2,38 @@ const MOVE = {'LEFT': 1, 'RIGHT': 2, 'UP': 3, 'DOWN': 4};
 
 var game = {	
 	__prevState: false,
-	
 	getBackupPoint: function(){
 		return this.__prevState;
 	},	
 	handleUserAction: async function(direction){
 		this.createBackupPoint();
 		
+		var promises = [];
+		
 		switch (direction) {
 			case MOVE.LEFT:			
-				await matrix.moveLeft();			
+				promises.push(matrix.moveLeft());			
 				break;
 			case MOVE.RIGHT:
-				await  matrix.moveRight();			
+				promises.push(matrix.moveRight());			
 				break;
 			case MOVE.UP:
-				await  matrix.moveUp();			
+				promises.push(matrix.moveUp());			
 				break;
 			case MOVE.DOWN:
-				await  matrix.moveDown();			
+				promises.push(matrix.moveDown());			
 				break;
 		}
-		
-		if(this.getBackupPoint().matrix!==JSON.stringify(matrix.getMatrix()))
-		{
-			await matrix.addNewTile();
+				
+		if(await Promise.all(promises)){
+			if(this.getBackupPoint().matrix!==JSON.stringify(matrix.getMatrixInArray()))
+			{
+				await utils.sleep(250);
+				matrix.addNewTile();
+				
+			}			
 		}
-
+		
 		ui.renderScore();
 		
 		if(this.isGamerOver()){
@@ -38,7 +43,9 @@ var game = {
 			return false;
 		}
 		
-		this.createSnapshot();		
+		this.createSnapshot();
+		
+		return false;
 	},
 	startNew: function(size){
 		ui.hideGameOver();
@@ -52,8 +59,9 @@ var game = {
 			
 		}else{
 			matrix.init(size);
+			
 			ui.score = 0;
-				
+
 			ui.renderMatrix();
 			
 			matrix.addNewTile();
@@ -63,6 +71,7 @@ var game = {
 		}		
 	},	
 	reset: function(size){
+		matrix.destroyElements();
 		ui.hideGameOver();
 		
 		localStorage.removeItem("matrix");
@@ -80,6 +89,8 @@ var game = {
 	},	
 	undo: function(){
 		if(this.__prevState){
+			matrix.destroyElements();
+			
 			matrix.setMatrix(JSON.parse(this.__prevState.matrix));
 			ui.score = parseInt(this.__prevState.score);
 			
@@ -88,10 +99,10 @@ var game = {
 		}	
 	},
 	createBackupPoint: function(){
-		this.__prevState = {"matrix": JSON.stringify(matrix.getMatrix()), "score": ui.score};
+		this.__prevState = {"matrix": JSON.stringify(matrix.getMatrixInArray()), "score": ui.score};
 	},
 	createSnapshot: function(){		
-		localStorage.setItem("matrix", JSON.stringify(matrix.getMatrix()));
+		localStorage.setItem("matrix", JSON.stringify(matrix.getMatrixInArray()));
 		localStorage.setItem("score", ui.score);
 
 	},
