@@ -22,7 +22,7 @@ var ui = {
 		{
 			for(var j=0; j<=size-1; j++)
 			{
-				ui.refreshTilePosition(i, j);   
+				TileManager.refreshTilePosition(i, j);   
 			}			
 		}		
 	},
@@ -156,73 +156,17 @@ var ui = {
 
 		
 	},
-	
-	createTileElement: function(v){
-		var element = document.createElement('div');
+	destroyElements: function(){
+		var size = matrix.getMatrix().length;
 		
-		element.className='tile';
-		
-		if(v > 0){
-			element.className+=" cell" + v;
-		} else{
-			element.className+=" tile0";
+		for(var x = 0; x <= size-1; x++)
+		{
+			for(var y = 0; y <= size-1; y++)
+			{
+				document.body.removeChild(matrix.getMatrix()[x][y].getElement());
+				matrix.getMatrix()[x][y] = null;
+			}
 		}
-		
-		element.innerHTML = v;
-		
-		document.body.appendChild(element);		
-		
-		return element;
-	},
-	refreshTilePosition: async function(x, y){
-		var tile = matrix.getMatrix()[x][y];
-		var pos = this.__cells[x][y].getBoundingClientRect();
-		
-		tile.getElement().style.top = pos['top'];
-		tile.getElement().style.left = pos['left'];	
-	},
-	
-	swapTiles: async function(fromX, fromY, toX, toY){
-		var tile = matrix.getMatrix()[fromX][fromY];
-		var tmp = matrix.getMatrix()[toX][toY];
-		var pos = this.__cells[toX][toY].getBoundingClientRect();
-		
-		tile.getElement().style.top = pos['top'];
-		tile.getElement().style.left = pos['left'];
-
-		matrix.getMatrix()[toX][toY] = tile;
-		
-		var pos = this.__cells[fromX][fromY].getBoundingClientRect();
-		
-		tmp.getElement().style.top = pos['top'];
-		tmp.getElement().style.left = pos['left'];
-		
-		matrix.getMatrix()[fromX][fromY] = tmp;
-	},
-	
-	changeTile: async function(x, y, v){
-		var tile = matrix.getMatrix()[x][y];
-		
-		tile.setValue(v);
-	
-		if(v > 0){
-			tile.getElement().className ="tile cell" + v;
-		} else{
-			tile.getElement().className ="tile";
-		}
-		
-		tile.getElement().innerHTML = v==0 ? '' : v;
-
-	},
-	blinkTile: async function(x, y){
-		var tile = matrix.getMatrix()[x][y];
-		
-		tile.getElement().className+=' merged';
-		
-		setTimeout(function(){
-			tile.getElement().className = tile.getElement().className.replace(' merged', '');		
-		}, 500)
-		
-	}
+	},	
 	
 };

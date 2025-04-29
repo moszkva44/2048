@@ -1,17 +1,34 @@
 <html>
 	<body>
 		<script>
-		
-		var ns = {
-		test: function(){
-			console.log('test');
+
+		var direction = -1;
+
+		if(direction==1){
+			var start = 0;
+			var end = 10;
+		} else {
+			var start = 10;
+			var end = 0;
 		}
-		};
 
-		var fn = 'ns.test';
+		function toStepForLoop(i, dir){
+			return (dir==1 ? i+1: i-1);
+		}
 
-		window[fn]();
+		function checkForLoop(i, dir, min, max){
+			if(dir==1){
+				return (i <= max-1);
+			}
 
+			console.log('belép...')
+
+			return (i > min);
+		}
+		
+		for(var i = start; (direction==1 ? i <=end-1 : i > end); i=(direction==1 ? i+1: i-1)){
+			console.log(i);
+		}
 
 		</script>
 		<h1>test...</h1>

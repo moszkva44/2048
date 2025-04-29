@@ -1,4 +1,4 @@
-const MOVE = {'LEFT': 'moveRowLeft', 'RIGHT': 'moveRowRight', 'UP': 'moveRowUp', 'DOWN': 'moveRowDown'};
+const MOVE = {'LEFT': 'moveRow:-1', 'RIGHT': 'moveRow:1', 'UP': 'moveColumn:-1', 'DOWN': 'moveColumn:1'};
 
 var game = {	
 	__prevState: false,
@@ -8,11 +8,13 @@ var game = {
 	handleUserAction: async function(direction){
 		this.createBackupPoint();
 		
-		if(await matrix.move(direction)){
+		var arg = direction.split(':');
+		
+		if(await MoveManager.move(arg[0], parseInt(arg[1]))){
 			if(this.getBackupPoint().matrix!==JSON.stringify(matrix.getMatrixInArray()))
 			{
 				await utils.sleep(250);
-				await matrix.addNewTile();
+				await TileManager.addNewTile();
 				
 			}			
 		}
@@ -47,14 +49,14 @@ var game = {
 
 			ui.renderMatrix();
 			
-			matrix.addNewTile();
-			matrix.addNewTile();	
+			TileManager.addNewTile();
+			TileManager.addNewTile();
 			
 			ui.renderScore();
 		}		
 	},	
 	reset: function(size){
-		matrix.destroyElements();
+		ui.destroyElements();
 		ui.hideGameOver();
 		
 		localStorage.removeItem("matrix");
@@ -65,14 +67,14 @@ var game = {
 			
 		ui.renderMatrix();
 		
-		matrix.addNewTile();
-		matrix.addNewTile();	
+		TileManager.addNewTile();
+		TileManager.addNewTile();	
 		
 		ui.renderScore();		
 	},	
 	undo: function(){
 		if(this.__prevState){
-			matrix.destroyElements();
+			ui.destroyElements();
 			
 			matrix.setMatrix(JSON.parse(this.__prevState.matrix));
 			ui.score = parseInt(this.__prevState.score);
@@ -90,7 +92,7 @@ var game = {
 
 	},
 	isGamerOver:function(){
-		return (matrix.getFreePlaces().length==0 && !matrix.doesMergableCellsExist());
+		return (matrix.getFreePlaces().length==0 && !matrix.hasMergableCells());
 	}
 	
 };

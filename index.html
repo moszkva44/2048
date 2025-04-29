@@ -1,7 +1,10 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
 		<link rel="stylesheet" href="css/style.css">
+		<script src="js/movemanager.js"></script>
+		<script src="js/tilemanager.js"></script>
 		<script src="js/tile.js"></script>
 		<script src="js/game.js"></script>
 		<script src="js/matrix.js"></script>
@@ -14,10 +17,10 @@
 		<div id="menu">
 			<input type="button" id="resetButton" value="New game"/>
 			<input type="button" id="undoButton" value="Undo move"/>
-			<select id="size_selector">
-				<option value="6">6x6</option>
+			<select id="size_selector">				
 				<option value="5" selected>5x5</option>
 				<option value="4">4x4</option>
+				<option value="3">3x3</option>
 			</select>
 			<span id="score"></span>
 		</div>

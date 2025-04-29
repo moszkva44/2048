@@ -16,6 +16,5 @@ var utils = {
 	},
 	sleep: function(ms) { 
 		return new Promise(res => setTimeout(res, ms)); 
-	}
-	
+	}	
 };

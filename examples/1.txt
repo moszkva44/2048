@@ -1,0 +1,37 @@
+	removeZerosFromRow: async function(x, direction){
+		var size = this.__matrix.length;
+	
+		var promises = [];
+
+		var lastPosition = -1;
+		var searchIndex = -1;
+		
+		while((searchIndex = (direction==1 ? this.getLastNotNullPosition(this.__matrix[x]) : this.getFirstNotNullPosition(this.__matrix[x])))  > -1)
+		{
+			if(searchIndex!=lastPosition)
+			{
+				for(var i=searchIndex; (direction==1 ? i < size-1 : i > 0); i = i + direction)
+				{
+					if(this.__matrix[x][i + direction].getValue()==0)
+					{
+						promises.push(ui.swapTiles(x, i, x, i + direction));
+					}
+					else
+					{
+						break;
+					}
+				}
+
+				lastPosition = searchIndex;
+			} 
+			else
+			{
+				lastPosition = -1;
+				break;
+			}
+			
+		}
+		
+		await Promise.all(promises);	
+
+	},	
