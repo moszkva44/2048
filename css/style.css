@@ -224,6 +224,19 @@ div.tile0{
 	opacity: 0;
 }
 
+div.merged{
+	animation:blink 0.5s linear;
+}
+
+@keyframes blink {
+  80% {
+    color:white;
+  }
+  90% {
+    color:orange;
+  }
+}
+
 
 
 

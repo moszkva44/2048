@@ -58,7 +58,7 @@ var tests = {
 		
 		game.createBackupPoint();
 		
-		await matrix.moveLeft();
+		await matrix.move(MOVE.LEFT);
 		
 		if(game.getBackupPoint().matrix==JSON.stringify(matrix.getMatrix()))
 		{
@@ -78,7 +78,7 @@ var tests = {
 		
 		game.createBackupPoint();
 		
-		await matrix.moveRight();
+		await matrix.move(MOVE.RIGHT);
 		
 		if(game.getBackupPoint().matrix==JSON.stringify(matrix.getMatrix()))
 		{
@@ -98,7 +98,7 @@ var tests = {
 		
 		game.createBackupPoint();
 		
-		await matrix.moveUp();
+		await matrix.move(MOVE.UP);
 		
 		if(game.getBackupPoint().matrix==JSON.stringify(matrix.getMatrix()))
 		{
@@ -118,7 +118,7 @@ var tests = {
 				
 		game.createBackupPoint();
 		
-		await matrix.moveDown();
+		await matrix.move(MOVE.DOWN);
 		
 		if(game.getBackupPoint().matrix==JSON.stringify(matrix.getMatrix()))
 		{
@@ -135,7 +135,7 @@ var tests = {
 	testMoveMatrixLeft: async function(input, expected_output)
 	{
 		matrix.setMatrix(input);
-		await matrix.moveLeft();
+		await matrix.move(MOVE.LEFT);
 		var result = JSON.stringify(matrix.getMatrixInArray());
 		
 		if(result!=JSON.stringify(expected_output))
@@ -157,7 +157,7 @@ var tests = {
 	testMoveMatrixRight: async function(input, expected_output)
 	{
 		matrix.setMatrix(input);
-		await matrix.moveRight();
+		await matrix.move(MOVE.RIGTH);
 		var result = JSON.stringify(matrix.getMatrixInArray());
 		
 		if(result!=JSON.stringify(expected_output))
@@ -180,7 +180,7 @@ var tests = {
 	testMoveMatrixUp: async function(input, expected_output)
 	{
 		matrix.setMatrix(input);
-		await matrix.moveUp();
+		await matrix.move(MOVE.UP);
 		var result = JSON.stringify(matrix.getMatrixInArray());
 		
 		if(result!=JSON.stringify(expected_output))
@@ -202,7 +202,7 @@ var tests = {
 	testMoveMatrixDown: async function(input, expected_output)
 	{
 		matrix.setMatrix(input);
-		await matrix.moveDown();
+		await matrix.move(MOVE.DOWN);
 		var result = JSON.stringify(matrix.getMatrixInArray());
 		
 		if(result!=JSON.stringify(expected_output))

@@ -88,29 +88,20 @@ var matrix = {
 		if(potentialPlaces.length > 0) 
 		{
 			var newNumber = potentialPlaces[utils.getRandomArbitrary(0, potentialPlaces.length-1)];
-			
-			seq=0;
-			
+
 			for(var x = 0; x <= size-1; x++)
 			{
 				for(var y = 0; y <= size-1; y++)
 				{
 					if(seq==newNumber)
 					{
-						await ui.changeTile(x, y, utils.getRandomValue());
+						return await ui.changeTile(x, y, utils.getRandomValue());
 					}
 					
 					seq++;
 				}
 			}		
 		}
-	},
-	addNewTileAfterChange: async function(){
-		/*
-		if(game.getBackupPoint().matrix!==JSON.stringify(this.getMatrixInArray())){
-			await this.addNewTile();
-		}
-		*/
 	},
 	doesMergableCellsExist: function()
 	{
@@ -187,7 +178,7 @@ var matrix = {
 				{
 					if(this.__matrix[x][i+1].getValue()==0)
 					{
-						promises.push(ui.moveTile(x, i, x, i + 1));
+						promises.push(ui.swapTiles(x, i, x, i + 1));
 					}
 					else
 					{
@@ -208,18 +199,6 @@ var matrix = {
 		await Promise.all(promises);	
 
 	},	
-	moveRight: async function(){
-		var size = this.__matrix.length;
-		
-		var fn = [];
-		
-		for(var x = 0; x <= size-1; x++)
-		{
-			fn.push(this.moveRowRight(x));
-		}
-		
-		await Promise.all(fn);	
-	},
 
 	moveRowRight: async function(x){
 		var size = this.__matrix.length;
@@ -232,8 +211,9 @@ var matrix = {
 		{
 			if(i > 0 && this.__matrix[x][i].getValue()==this.__matrix[x][i-1].getValue())
 			{
-				promises.push(ui.moveTile(x, i-1, x, i));
-				promises.push(ui.changeTile(x, i, this.__matrix[x][i].getValue() * 2));	
+				promises.push(ui.swapTiles(x, i-1, x, i));
+				promises.push(ui.changeTile(x, i, this.__matrix[x][i].getValue() * 2));					
+				promises.push(ui.blinkTile(x, i));
 				promises.push(ui.changeTile(x, i-1, 0));				
 				
 				ui.score+= this.__matrix[x][i].getValue();
@@ -260,7 +240,7 @@ var matrix = {
 				{
 					if(this.__matrix[x][i-1].getValue()==0)
 					{
-						promises.push(ui.moveTile(x, i, x, i - 1));
+						promises.push(ui.swapTiles(x, i, x, i - 1));
 					}
 					else
 					{
@@ -281,18 +261,17 @@ var matrix = {
 		await Promise.all(promises);	
 	},
 	
-	moveLeft: async function()
-	{
+	move: async function(direction){
 		var size = this.__matrix.length;
 		
 		var fn = [];
 		
 		for(var x = 0; x <= size-1; x++)
 		{
-			fn.push(this.moveRowLeft(x));
+			fn.push(window['matrix'][direction](x));
 		}
 		
-		await Promise.all(fn);		
+		return await Promise.all(fn);				
 	},
 
 	moveRowLeft: async function(x)
@@ -307,8 +286,9 @@ var matrix = {
 		{
 			if(i < size-1 && this.__matrix[x][i].getValue()==this.__matrix[x][i+1].getValue())
 			{				
-				promises.push(ui.moveTile(x, i+1, x, i));
-				promises.push(ui.changeTile(x, i, this.__matrix[x][i].getValue() * 2));	
+				promises.push(ui.swapTiles(x, i+1, x, i));				
+				promises.push(ui.changeTile(x, i, this.__matrix[x][i].getValue() * 2));				
+				promises.push(ui.blinkTile(x, i));
 				promises.push(ui.changeTile(x, i+1, 0));
 				
 				ui.score+= this.__matrix[x][i].getValue();
@@ -340,7 +320,7 @@ var matrix = {
 						column[i-1] = this.__matrix[i][y];
 						column[i] = new Tile({}, 0);	
 						
-						promises.push(ui.moveTile(i - 1, y, i, y));
+						promises.push(ui.swapTiles(i - 1, y, i, y));
 					}	
 					else
 					{
@@ -361,20 +341,6 @@ var matrix = {
 		await Promise.all(promises);
 	},
 	
-	moveUp: async function(){
-		var size = this.__matrix.length;
-		
-		var fn = [];
-		
-		// oszlopok	
-		for(var y = 0; y <= size-1; y++)
-		{	
-			fn.push(this.moveRowUp(y));			
-		}
-		
-		await Promise.all(fn);			
-	},
-
 	moveRowUp: async function(y){
 		var size = this.__matrix.length;
 		
@@ -386,8 +352,9 @@ var matrix = {
 		{
 			if(i < size-1 && this.__matrix[i][y].getValue()==this.__matrix[i+1][y].getValue())
 			{
-				promises.push(ui.moveTile(i+1, y, i, y));
-				promises.push(ui.changeTile(i, y, this.__matrix[i][y].getValue() * 2));	
+				promises.push(ui.swapTiles(i+1, y, i, y));			
+				promises.push(ui.changeTile(i, y, this.__matrix[i][y].getValue() * 2));		
+				promises.push(ui.blinkTile(i, y));
 				promises.push(ui.changeTile(i+1, y, 0));				
 				
 				ui.score+= this.__matrix[i][y].getValue();
@@ -419,7 +386,7 @@ var matrix = {
 						column[i+1] = this.__matrix[i][y];
 						column[i] = new Tile({}, 0);		
 						
-						promises.push(ui.moveTile(i + 1, y, i, y));
+						promises.push(ui.swapTiles(i + 1, y, i, y));
 					}
 					else
 					{
@@ -439,19 +406,6 @@ var matrix = {
 		
 		await Promise.all(promises);
 	},
-	moveDown: async function(){
-		var size = this.__matrix.length;
-		
-		var fn = [];
-		
-		// oszlopok	
-		for(var y = 0; y <= size-1; y++)
-		{	
-			fn.push(this.moveRowDown(y));			
-		}
-		
-		await Promise.all(fn);				
-	},
 	moveRowDown: async function(y){
 		var size = this.__matrix.length;
 		
@@ -463,8 +417,9 @@ var matrix = {
 		{
 			if(i > 0 && this.__matrix[i][y].getValue()==this.__matrix[i-1][y].getValue())
 			{
-				promises.push(ui.moveTile(i-1, y, i, y));
-				promises.push(ui.changeTile(i, y, this.__matrix[i][y].getValue() * 2));	
+				promises.push(ui.swapTiles(i-1, y, i, y));				
+				promises.push(ui.changeTile(i, y, this.__matrix[i][y].getValue() * 2));		
+				promises.push(ui.blinkTile(i, y));
 				promises.push(ui.changeTile(i-1, y, 0));					
 				
 				ui.score+= this.__matrix[i][y].getValue();

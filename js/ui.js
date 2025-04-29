@@ -1,5 +1,3 @@
-const MOVE_DELAY = 10; // ms
-
 var ui = {
 	score: 0,
 	__cells: [],
@@ -19,6 +17,14 @@ var ui = {
 			
 			this.__cells.push(row);
 		}
+		
+		for(var i=0; i<=size-1; i++)
+		{
+			for(var j=0; j<=size-1; j++)
+			{
+				ui.refreshTilePosition(i, j);   
+			}			
+		}		
 	},
 	renderMatrix: function(){
 		var size = matrix.getMatrix().length;
@@ -42,13 +48,6 @@ var ui = {
 
 		this.init();
 		
-		for(var i=0; i<=size-1; i++)
-		{
-			for(var j=0; j<=size-1; j++)
-			{
-				ui.renderTile(i, j);   
-			}			
-		}
 	},	
 	renderScore: function(){
 		document.getElementById('score').innerHTML = "Score: " + this.score;
@@ -77,7 +76,6 @@ var ui = {
 	},
 	
 	handlers: {
-		__eventLocked: false, 
 		getMoveFromEvent: function(e){
 			var move = '';
 			
@@ -176,7 +174,7 @@ var ui = {
 		
 		return element;
 	},
-	renderTile: async function(x, y){
+	refreshTilePosition: async function(x, y){
 		var tile = matrix.getMatrix()[x][y];
 		var pos = this.__cells[x][y].getBoundingClientRect();
 		
@@ -184,7 +182,7 @@ var ui = {
 		tile.getElement().style.left = pos['left'];	
 	},
 	
-	moveTile: async function(fromX, fromY, toX, toY){
+	swapTiles: async function(fromX, fromY, toX, toY){
 		var tile = matrix.getMatrix()[fromX][fromY];
 		var tmp = matrix.getMatrix()[toX][toY];
 		var pos = this.__cells[toX][toY].getBoundingClientRect();
@@ -210,11 +208,21 @@ var ui = {
 		if(v > 0){
 			tile.getElement().className ="tile cell" + v;
 		} else{
-			tile.getElement().className+="tile";
+			tile.getElement().className ="tile";
 		}
 		
 		tile.getElement().innerHTML = v==0 ? '' : v;
 
+	},
+	blinkTile: async function(x, y){
+		var tile = matrix.getMatrix()[x][y];
+		
+		tile.getElement().className+=' merged';
+		
+		setTimeout(function(){
+			tile.getElement().className = tile.getElement().className.replace(' merged', '');		
+		}, 500)
+		
 	}
 	
 };

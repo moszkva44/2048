@@ -1,4 +1,4 @@
-const MOVE = {'LEFT': 1, 'RIGHT': 2, 'UP': 3, 'DOWN': 4};
+const MOVE = {'LEFT': 'moveRowLeft', 'RIGHT': 'moveRowRight', 'UP': 'moveRowUp', 'DOWN': 'moveRowDown'};
 
 var game = {	
 	__prevState: false,
@@ -8,28 +8,11 @@ var game = {
 	handleUserAction: async function(direction){
 		this.createBackupPoint();
 		
-		var promises = [];
-		
-		switch (direction) {
-			case MOVE.LEFT:			
-				promises.push(matrix.moveLeft());			
-				break;
-			case MOVE.RIGHT:
-				promises.push(matrix.moveRight());			
-				break;
-			case MOVE.UP:
-				promises.push(matrix.moveUp());			
-				break;
-			case MOVE.DOWN:
-				promises.push(matrix.moveDown());			
-				break;
-		}
-				
-		if(await Promise.all(promises)){
+		if(await matrix.move(direction)){
 			if(this.getBackupPoint().matrix!==JSON.stringify(matrix.getMatrixInArray()))
 			{
 				await utils.sleep(250);
-				matrix.addNewTile();
+				await matrix.addNewTile();
 				
 			}			
 		}
