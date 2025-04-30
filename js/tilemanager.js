@@ -3,7 +3,7 @@ var TileManager = {
 	{
 		var seq = 0;
 		var potentialPlaces = matrix.getFreePlaces();
-		var size = matrix.getMatrix().length;
+		var size = matrix.get().length;
 		
 		if(potentialPlaces.length > 0) 
 		{
@@ -25,8 +25,8 @@ var TileManager = {
 		
 		return false;
 	},
-	refreshTilePosition: async function(x, y){
-		var tile = matrix.getMatrix()[x][y];
+	adjustTileToCell: async function(x, y){
+		var tile = matrix.get()[x][y];
 		var pos = ui.__cells[x][y].getBoundingClientRect();
 		
 		tile.getElement().style.top = pos['top'];
@@ -35,7 +35,6 @@ var TileManager = {
 		tile.getElement().style.height = pos['height'];
 		tile.getElement().style.lineHeight = pos['height'] + 'px';
 	},
-	
 	createTileElement: function(v){
 		var element = document.createElement('div');
 		
@@ -54,7 +53,7 @@ var TileManager = {
 		return element;
 	},	
 	blinkTile: async function(x, y){
-		var tile = matrix.getMatrix()[x][y];
+		var tile = matrix.get()[x][y];
 		
 		tile.getElement().className+=' merged';
 		
@@ -64,7 +63,7 @@ var TileManager = {
 		
 	},
 	changeTile: async function(x, y, v){
-		var tile = matrix.getMatrix()[x][y];
+		var tile = matrix.get()[x][y];
 		
 		tile.setValue(v);
 	
@@ -78,21 +77,21 @@ var TileManager = {
 
 	},
 	swapTiles: async function(fromX, fromY, toX, toY){
-		var tile = matrix.getMatrix()[fromX][fromY];
-		var tmp = matrix.getMatrix()[toX][toY];
+		var tile = matrix.get()[fromX][fromY];
+		var tmp = matrix.get()[toX][toY];
 		var pos = ui.__cells[toX][toY].getBoundingClientRect();
 		
 		tile.getElement().style.top = pos['top'];
 		tile.getElement().style.left = pos['left'];
 
-		matrix.getMatrix()[toX][toY] = tile;
+		matrix.get()[toX][toY] = tile;
 		
 		var pos = ui.__cells[fromX][fromY].getBoundingClientRect();
 		
 		tmp.getElement().style.top = pos['top'];
 		tmp.getElement().style.left = pos['left'];
 		
-		matrix.getMatrix()[fromX][fromY] = tmp;
+		matrix.get()[fromX][fromY] = tmp;
 	}	
 	
 };

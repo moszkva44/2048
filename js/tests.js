@@ -26,71 +26,71 @@ var tests = {
 		await this.testHasMergableCells([[0,2,0,2,0],[2,0,2,0,2], [0,2,0,2,0], [2,0,2,0,2], [0,2,0,2,0]], false);
 		await this.testHasMergableCells([[0,2,0,2,0],[2,0,2,0,2], [0,2,0,2,0], [2,0,2,4,2], [0,2,0,4,0]], true);
 
-		await this.testRemoveZerosFromRow([[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromRow([[0,1,1,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromRow([[0,0,1,1,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromRow([[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromRow([[1,0,1,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromRow([[1,0,0,1,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromRow([[1,0,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromRow([[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromRow([[1,0,1,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,1,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromRow([[1,1,1,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,1,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, 1);
+		await this.testRemoveZerosFromRow([[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.RIGHT);
+		await this.testRemoveZerosFromRow([[0,1,1,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.RIGHT);
+		await this.testRemoveZerosFromRow([[0,0,1,1,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.RIGHT);
+		await this.testRemoveZerosFromRow([[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.RIGHT);
+		await this.testRemoveZerosFromRow([[1,0,1,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.RIGHT);
+		await this.testRemoveZerosFromRow([[1,0,0,1,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.RIGHT);
+		await this.testRemoveZerosFromRow([[1,0,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.RIGHT);
+		await this.testRemoveZerosFromRow([[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.RIGHT);
+		await this.testRemoveZerosFromRow([[1,0,1,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,1,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.RIGHT);
+		await this.testRemoveZerosFromRow([[1,1,1,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,1,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.RIGHT);
 		
 		
 		
-		await this.testRemoveZerosFromRow([[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromRow([[0,0,1,1,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromRow([[0,1,1,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromRow([[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromRow([[0,0,1,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromRow([[0,1,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromRow([[1,0,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromRow([[0,0,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromRow([[1,0,1,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,1,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromRow([[1,1,1,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,1,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
+		await this.testRemoveZerosFromRow([[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.LEFT);
+		await this.testRemoveZerosFromRow([[0,0,1,1,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.LEFT);
+		await this.testRemoveZerosFromRow([[0,1,1,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.LEFT);
+		await this.testRemoveZerosFromRow([[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.LEFT);
+		await this.testRemoveZerosFromRow([[0,0,1,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.LEFT);
+		await this.testRemoveZerosFromRow([[0,1,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.LEFT);
+		await this.testRemoveZerosFromRow([[1,0,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.LEFT);
+		await this.testRemoveZerosFromRow([[0,0,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.LEFT);
+		await this.testRemoveZerosFromRow([[1,0,1,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,1,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.LEFT);
+		await this.testRemoveZerosFromRow([[1,1,1,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,1,1,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.LEFT);
 		
 
-		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], 0, 1);		
-		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, 1);
-		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, 1);
+		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], 0, MOVE.DOWN);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], 0, MOVE.DOWN);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], 0, MOVE.DOWN);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], 0, MOVE.DOWN);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], 0, MOVE.DOWN);		
+		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, MOVE.DOWN);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, MOVE.DOWN);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, MOVE.DOWN);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, MOVE.DOWN);
+		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, MOVE.DOWN);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.DOWN);
+		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, MOVE.DOWN);
+		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, MOVE.DOWN);
+		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, MOVE.DOWN);
 				
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);		
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);		
-		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);		
-		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
-		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, -1);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);
+		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], 0, MOVE.UP);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);
+		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);		
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);
+		await this.testRemoveZerosFromColumn([[0,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);
+		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);		
+		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);		
+		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);
+		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);
 		
 		ui.destroyElements();	
 		
 	},
 	
 	testRemoveZerosFromColumn: async function(input, expected_output, index, dir){
-		matrix.setMatrix(input);
+		matrix.setFromArray(input);
 		
-		await MoveManager.__removeZerosFromColumn(index, dir);
+		await MoveManager.__removeZeros(index, {'stepX': parseInt(dir[0]), 'stepY': parseInt(dir[1])});
 		
-		var result = JSON.stringify(matrix.getMatrixInArray());
+		var result = JSON.stringify(matrix.getAsArray());
 		
 		if(result!=JSON.stringify(expected_output))
 		{
@@ -110,11 +110,11 @@ var tests = {
 	},	
 	
 	testRemoveZerosFromRow: async function(input, expected_output, index, dir){
-		matrix.setMatrix(input);
+		matrix.setFromArray(input);
 		
-		await MoveManager.__removeZerosFromRow(index, dir);
+		await MoveManager.__removeZeros(index, {'stepX': parseInt(dir[0]), 'stepY': parseInt(dir[1])});
 		
-		var result = JSON.stringify(matrix.getMatrixInArray());
+		var result = JSON.stringify(matrix.getAsArray());
 		
 		if(result!=JSON.stringify(expected_output))
 		{
@@ -133,9 +133,8 @@ var tests = {
 		
 	},
 	
-	testHasMergableCells: async function(input, expected_output)
-	{
-		matrix.setMatrix(input);
+	testHasMergableCells: async function(input, expected_output){
+		matrix.setFromArray(input);
 		
 		game.createBackupPoint();
 		
@@ -159,13 +158,13 @@ var tests = {
 	
 	testChangeCheckingAfterLeftMove: async function(input)
 	{
-		matrix.setMatrix(input);
+		matrix.setFromArray(input);
 		
 		game.createBackupPoint();
 		
-		await MoveManager.move(MOVE.LEFT.split(':')[0], -1);
+		await game.handleUserAction(MOVE.LEFT, true);
 		
-		if(game.getBackupPoint().matrix==JSON.stringify(matrix.getMatrix()))
+		if(game.getBackupPoint().matrix==JSON.stringify(matrix.get()))
 		{
 			console.log('Test failed! testChangeChecking() after left move');
 			console.log('input:');
@@ -179,13 +178,13 @@ var tests = {
 
 	testChangeCheckingAfterRightMove: async function(input)
 	{
-		matrix.setMatrix(input);
+		matrix.setFromArray(input);
 		
 		game.createBackupPoint();
 		
-		await MoveManager.move(MOVE.RIGHT.split(':')[0], 1);
+		await game.handleUserAction(MOVE.RIGHT, true);
 		
-		if(game.getBackupPoint().matrix==JSON.stringify(matrix.getMatrix()))
+		if(game.getBackupPoint().matrix==JSON.stringify(matrix.get()))
 		{
 			console.log('Test failed! testChangeChecking() after right move');
 			console.log('input:');
@@ -199,13 +198,13 @@ var tests = {
 	
 	testChangeCheckingAfterUpMove: async function(input)
 	{
-		matrix.setMatrix(input);
+		matrix.setFromArray(input);
 		
 		game.createBackupPoint();
 		
-		await MoveManager.move(MOVE.UP.split(':')[0], -1);
+		await game.handleUserAction(MOVE.UP, true);
 		
-		if(game.getBackupPoint().matrix==JSON.stringify(matrix.getMatrix()))
+		if(game.getBackupPoint().matrix==JSON.stringify(matrix.get()))
 		{
 			console.log('Test failed! testChangeChecking() after up move');
 			console.log('input:');
@@ -219,13 +218,13 @@ var tests = {
 
 	testChangeCheckingAfterDownMove: async function(input)
 	{
-		matrix.setMatrix(input);
+		matrix.setFromArray(input);
 				
 		game.createBackupPoint();
 		
-		await MoveManager.move(MOVE.DOWN.split(':')[0], 1);
+		await game.handleUserAction(MOVE.DOWN, true);
 		
-		if(game.getBackupPoint().matrix==JSON.stringify(matrix.getMatrix()))
+		if(game.getBackupPoint().matrix==JSON.stringify(matrix.get()))
 		{
 			console.log('Test failed! testChangeChecking() after down move');
 			console.log('input:');
@@ -239,9 +238,9 @@ var tests = {
 
 	testMoveMatrixLeft: async function(input, expected_output)
 	{
-		matrix.setMatrix(input);
-		await MoveManager.move(MOVE.LEFT.split(':')[0], -1);
-		var result = JSON.stringify(matrix.getMatrixInArray());
+		matrix.setFromArray(input);
+		await game.handleUserAction(MOVE.LEFT, true);
+		var result = JSON.stringify(matrix.getAsArray());
 		
 		if(result!=JSON.stringify(expected_output))
 		{
@@ -261,9 +260,9 @@ var tests = {
 
 	testMoveMatrixRight: async function(input, expected_output)
 	{
-		matrix.setMatrix(input);
-		await MoveManager.move(MOVE.RIGHT.split(':')[0], 1);
-		var result = JSON.stringify(matrix.getMatrixInArray());
+		matrix.setFromArray(input);
+		await game.handleUserAction(MOVE.RIGHT, true);
+		var result = JSON.stringify(matrix.getAsArray());
 		
 		if(result!=JSON.stringify(expected_output))
 		{
@@ -284,9 +283,9 @@ var tests = {
 
 	testMoveMatrixUp: async function(input, expected_output)
 	{
-		matrix.setMatrix(input);
-		await MoveManager.move(MOVE.UP.split(':')[0], -1);
-		var result = JSON.stringify(matrix.getMatrixInArray());
+		matrix.setFromArray(input);
+		await game.handleUserAction(MOVE.UP, true);
+		var result = JSON.stringify(matrix.getAsArray());
 		
 		if(result!=JSON.stringify(expected_output))
 		{
@@ -306,9 +305,9 @@ var tests = {
 
 	testMoveMatrixDown: async function(input, expected_output)
 	{
-		matrix.setMatrix(input);
-		await MoveManager.move(MOVE.DOWN.split(':')[0], 1);
-		var result = JSON.stringify(matrix.getMatrixInArray());
+		matrix.setFromArray(input);
+		await game.handleUserAction(MOVE.DOWN, true);
+		var result = JSON.stringify(matrix.getAsArray());
 		
 		if(result!=JSON.stringify(expected_output))
 		{

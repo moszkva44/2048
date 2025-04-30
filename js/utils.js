@@ -12,8 +12,11 @@ var utils = {
 	},
 	
 	extractColumn: function(arr, column){
-		return arr.map(x => x[column])
+		return arr.map(x => x[column]);
 	},
+	extractRow: function(arr, row){
+		return arr[row].map(x => x);
+	},	
 	sleep: function(ms) { 
 		return new Promise(res => setTimeout(res, ms)); 
 	}	

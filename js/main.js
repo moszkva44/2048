@@ -1,7 +1,9 @@
 
 window.onload = function(){ 
+	// Init a new game
 	game.startNew(document.getElementById('size_selector').value);
 	
+	// bind event handlers to buttons
 	document.getElementById('resetButton').addEventListener('click', function(){
 		game.reset(document.getElementById('size_selector').value);		
 	});     
@@ -10,16 +12,14 @@ window.onload = function(){
 		game.undo();		
 	});  	 
 
-	document.getElementById('size_selector').value = matrix.getMatrix().length;
+	document.getElementById('size_selector').value = matrix.get().length;
 	
-	if(ui.isMobile())
-	{
-		document.addEventListener('touchstart', ui.handlers.handleTouchStart, {passive: false});        
-		document.addEventListener('touchmove', ui.handlers.handleTouchMove, {passive: false});		
-	}
-	else
-	{
-		window.addEventListener('keydown', ui.handlers.keyDownHandler);
+	// bind event handlers to user input depending on coming from mobile/desktop
+	if(ui.isMobile()){
+		document.addEventListener('touchstart', EventManager.handleTouchStart, {passive: false});        
+		document.addEventListener('touchmove', EventManager.handleTouchMove, {passive: false});		
+	}else{
+		window.addEventListener('keydown', EventManager.keyDownHandler);
 	}	
 }
 

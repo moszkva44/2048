@@ -13,67 +13,35 @@ var MoveManager = {
 		}	
 
 		return pos;
-	},	
-	__removeZerosFromRow: async function(x, direction){
-		var size = matrix.getMatrix().length;
-		
-		var lastPosition = -1;
-		var searchIndex = -1;
-
-		var promises = [];
-		
-		while((searchIndex = this.__getExremePositionOfNotZero(matrix.getMatrix()[x], direction))  > -1)
-		{
-			if(searchIndex!=lastPosition)
-			{
-				for(var i=searchIndex; (direction==1 ? i < size-1 : i > 0); i = i + direction)
-				{
-					if(matrix.getMatrix()[x][i + direction].getValue()==0)
-					{
-						promises.push(TileManager.swapTiles(x, i, x, i + direction));
-					}
-					else
-					{
-						break;
-					}
-				}
-
-				lastPosition = searchIndex;
-			} 
-			else
-			{
-				lastPosition = -1;
-				break;
-			}
-			
-		}
-		
-		await Promise.all(promises);	
-
 	},
-
-	__removeZerosFromColumn: async function(y, direction){
-		var size = matrix.getMatrix().length;
+	__isVerticalStep: function(dir){
+		return dir.stepY!=0;
+	},
+	__removeZeros: async function(x, dir){
+		var size = matrix.get().length;
 		
 		var promises = [];
 	
-		var column = utils.extractColumn(matrix.getMatrix(), y);
+		// vertical move
+		var vector = (this.__isVerticalStep(dir) ? utils.extractColumn(matrix.get(), x) : utils.extractRow(matrix.get(), x));
 		
 		var lastPosition = -1;
 		var searchIndex = -1;
+		
+		var step = (dir.stepX!=0) ? dir.stepX : dir.stepY;
 	
-		while((searchIndex = this.__getExremePositionOfNotZero(column, direction)) > -1)
+		while((searchIndex = this.__getExremePositionOfNotZero(vector, (dir.stepX!=0) ? dir.stepX : dir.stepY)) > -1)
 		{
 			if(searchIndex!=lastPosition)
 			{
-				for(var i=searchIndex; (direction==1 ? i < size-1 : i > 0); i = i + direction)
+				for(var i=searchIndex; (step==1 ? i < size-1 : i > 0); i = i + step)
 				{
-					if(column[i+direction].getValue()==0)
-					{		
-						column[i + direction] = matrix.getMatrix()[i][y];
-						column[i] = new Tile({}, 0);		
-						
-						promises.push(TileManager.swapTiles(i + direction, y, i, y));
+					if(vector[i+step].getValue()==0)
+					{	
+						vector[i + step] = this.__isVerticalStep(dir) ? matrix.get()[i][x] : matrix.get()[x][i];
+						vector[i] = new Tile({}, 0);	
+
+						promises.push(this.__isVerticalStep(dir) ? TileManager.swapTiles(i + step, x, i, x) : promises.push(TileManager.swapTiles(x, i + step, x, i)));
 					}
 					else
 					{
@@ -92,71 +60,48 @@ var MoveManager = {
 		}
 		
 		await Promise.all(promises);
-	},	
+	},		
 
-	move: async function(func, direction){
-		var size = matrix.getMatrix().length;
+	move: async function(dir){
+		var size = matrix.get().length;
 		
 		var fn = [];
 		
 		for(var x = 0; x <= size-1; x++)
 		{
-			fn.push(window['MoveManager'][func](x, direction));
+			fn.push(this.__moveLine(x, dir));
 		}
 		
 		return await Promise.all(fn);				
 	},		
-	
-	moveRow: async function(x, direction)
-	{
-		var size = matrix.getMatrix().length;
+	__moveLine: async function(x, dir){
+		var size = matrix.get().length;
 		
-		await this.__removeZerosFromRow(x, direction);		
-		
+		await this.__removeZeros(x, dir);
+
+		step = (dir.stepX!=0) ? dir.stepX : dir.stepY;
+
 		var promises = [];
 		
-		for(var i = (direction==1 ? size-1 : 0); (direction==1 ? i > 0 : i < size-1); i = (direction==1 ? i - 1: i + 1))
+		for(var i = (step==1 ? size-1 : 0); (step==1 ? i > 0 : i < size-1); i = (step==1 ? i - 1: i + 1))
 		{
-			if(matrix.getMatrix()[x][i].getValue()==matrix.getMatrix()[x][i+(direction*-1)].getValue())
+			// this.__isVerticalStep(dir) -> vertical move else horizontal
+			if((this.__isVerticalStep(dir) ? matrix.get()[i][x].getValue() : matrix.get()[x][i].getValue())==(this.__isVerticalStep(dir) ? matrix.get()[i+(step*-1)][x].getValue() : matrix.get()[x][i+(step*-1)].getValue() ))
 			{				
-				promises.push(TileManager.swapTiles(x, i+(direction*-1), x, i));				
-				promises.push(TileManager.changeTile(x, i, matrix.getMatrix()[x][i].getValue() * 2));				
-				promises.push(TileManager.blinkTile(x, i));
-				promises.push(TileManager.changeTile(x, i+(direction*-1), 0));
+				promises.push(this.__isVerticalStep(dir) ? TileManager.swapTiles(i-step, x, i, x) : TileManager.swapTiles(x, i-step, x, i));				
+				promises.push(this.__isVerticalStep(dir) ? TileManager.changeTile(i, x, matrix.get()[i][x].getValue() * 2) : TileManager.changeTile(x, i, matrix.get()[x][i].getValue() * 2));				
+				promises.push(this.__isVerticalStep(dir) ? TileManager.blinkTile(i, x): TileManager.blinkTile(x, i));
+				promises.push(this.__isVerticalStep(dir) ? TileManager.changeTile(i-step, x, 0) : TileManager.changeTile(x, i-step, 0));
 				
-				ui.score+= matrix.getMatrix()[x][i].getValue();
+				ui.score+= this.__isVerticalStep(dir) ? matrix.get()[i][x].getValue() : matrix.get()[x][i].getValue();
 				
-				promises.push(this.__removeZerosFromRow(x, direction));			
+				promises.push(this.__removeZeros(x, dir));
 			}
 		}
 		
 		await Promise.all(promises);
-	},	
-	moveColumn: async function(y, direction){
-		var size = matrix.getMatrix().length;
 		
-		var promises = [];
-		
-		await this.__removeZerosFromColumn(y, direction);
-
-		for(var i = (direction==1 ? size-1 : 0); (direction==1 ? i > 0 : i < size -1); i=(direction==1 ? i-1 : i+1))
-		{
-			if(matrix.getMatrix()[i][y].getValue()==matrix.getMatrix()[i+(direction*-1)][y].getValue())
-			{
-				promises.push(TileManager.swapTiles(i+(direction*-1), y, i, y));				
-				promises.push(TileManager.changeTile(i, y, matrix.getMatrix()[i][y].getValue() * 2));		
-				promises.push(TileManager.blinkTile(i, y));
-				promises.push(TileManager.changeTile(i+(direction*-1), y, 0));					
-				
-				ui.score+= matrix.getMatrix()[i][y].getValue();
-
-				promises.push(this.__removeZerosFromColumn(y, direction));
-			}
-
-		}
-		
-		await Promise.all(promises);
-	}	
-	
+		return true;
+	}
 	
 };

@@ -1,24 +1,9 @@
 var matrix = {
 	__matrix: [],
-	setMatrix: function(matrix){
-		var size = matrix.length;
-		
-		this.__matrix = [];
-		
-		for(var x = 0; x <= size-1; x++)
-		{
-			this.__matrix[x] = [];
-			
-			for(var y = 0; y <= size-1; y++)
-			{
-				this.__matrix[x][y] = new Tile(TileManager.createTileElement(matrix[x][y]), matrix[x][y]);
-			}
-		}
-	},
-	getMatrix: function(){
+	get: function(){
 		return this.__matrix;
-	},
-	getMatrixInArray: function(){
+	},	
+	getAsArray: function(){
 		var size = this.__matrix.length;
 		var matrix = [];
 		
@@ -33,6 +18,21 @@ var matrix = {
 		}
 		
 		return matrix;
+	},
+	setFromArray: function(matrix){
+		var size = matrix.length;
+		
+		this.__matrix = [];
+		
+		for(var x = 0; x <= size-1; x++)
+		{
+			this.__matrix[x] = [];
+			
+			for(var y = 0; y <= size-1; y++)
+			{
+				this.__matrix[x][y] = new Tile(TileManager.createTileElement(matrix[x][y]), matrix[x][y]);
+			}
+		}
 	},	
 	init: function(i){
 		this.__matrix = [];

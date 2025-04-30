@@ -1,37 +1,27 @@
-	removeZerosFromRow: async function(x, direction){
-		var size = this.__matrix.length;
-	
+	moveRow: async function(x, direction)
+	{
+		var size = matrix.getMatrix().length;
+		
 		var promises = [];
 
-		var lastPosition = -1;
-		var searchIndex = -1;
+		await this.__removeZerosFromRow(x, direction);		
 		
-		while((searchIndex = (direction==1 ? this.getLastNotNullPosition(this.__matrix[x]) : this.getFirstNotNullPosition(this.__matrix[x])))  > -1)
+		for(var i = (direction==1 ? size-1 : 0); (direction==1 ? i > 0 : i < size-1); i = (direction==1 ? i - 1: i + 1))
 		{
-			if(searchIndex!=lastPosition)
-			{
-				for(var i=searchIndex; (direction==1 ? i < size-1 : i > 0); i = i + direction)
-				{
-					if(this.__matrix[x][i + direction].getValue()==0)
-					{
-						promises.push(ui.swapTiles(x, i, x, i + direction));
-					}
-					else
-					{
-						break;
-					}
-				}
-
-				lastPosition = searchIndex;
-			} 
-			else
-			{
-				lastPosition = -1;
-				break;
+			if(matrix.getMatrix()[x][i].getValue()==matrix.getMatrix()[x][i+(direction*-1)].getValue())
+			{				
+				promises.push(TileManager.swapTiles(x, i+(direction*-1), x, i));				
+				promises.push(TileManager.changeTile(x, i, matrix.getMatrix()[x][i].getValue() * 2));				
+				promises.push(TileManager.blinkTile(x, i));
+				promises.push(TileManager.changeTile(x, i+(direction*-1), 0));
+				
+				ui.score+= matrix.getMatrix()[x][i].getValue();
+				
+				promises.push(this.__removeZerosFromRow(x, direction));			
 			}
-			
 		}
 		
-		await Promise.all(promises);	
-
+		await Promise.all(promises);
+		
+		return true;
 	},	
