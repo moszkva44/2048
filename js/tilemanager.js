@@ -31,6 +31,9 @@ var TileManager = {
 		
 		tile.getElement().style.top = pos['top'];
 		tile.getElement().style.left = pos['left'];	
+		tile.getElement().style.width = pos['width'];
+		tile.getElement().style.height = pos['height'];
+		tile.getElement().style.lineHeight = pos['height'] + 'px';
 	},
 	
 	createTileElement: function(v){

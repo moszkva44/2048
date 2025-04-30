@@ -30,13 +30,15 @@ var ui = {
 		var size = matrix.getMatrix().length;
 		var content = "<table id=\"\grid\">";
 		
+		var width = height = (ui.isMobile() ? window.screen.width/size + 'px' : '4rem');
+		
 		for(var i=0; i<=size-1; i++)
 		{
 			content+="<tr>";
 			
 			for(var j=0; j<=size-1; j++)
 			{
-				content+="<td id=\"cell[" + i + "," + j + "]\" class=\"cell cell0\"> &nbsp;</td>";
+				content+="<td id=\"cell[" + i + "," + j + "]\" class=\"cell cell0\" style=\"width: " + width +"; height: " + height + ";\"> &nbsp;</td>";
 			}
 			
 			content+"</tr>";
@@ -74,7 +76,9 @@ var ui = {
 		document.getElementById('game_over').style = '';
 		document.getElementById('game_over').innerHTML = 'Game over';		
 	},
-	
+	isMobile: function(){
+		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+	},	
 	handlers: {
 		getMoveFromEvent: function(e){
 			var move = '';

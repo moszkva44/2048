@@ -6,11 +6,16 @@ var game = {
 		return this.__prevState;
 	},	
 	handleUserAction: async function(direction){
+		if(direction=='')
+		{
+			return false;
+		}
+		
 		this.createBackupPoint();
 		
-		var arg = direction.split(':');
+		var [fn, dir] = direction.split(':');
 		
-		if(await MoveManager.move(arg[0], parseInt(arg[1]))){
+		if(await MoveManager.move(fn, parseInt(dir))){
 			if(this.getBackupPoint().matrix!==JSON.stringify(matrix.getMatrixInArray()))
 			{
 				await utils.sleep(250);

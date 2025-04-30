@@ -11,17 +11,18 @@ window.onload = function(){
 	});  	 
 
 	document.getElementById('size_selector').value = matrix.getMatrix().length;
+	
+	if(ui.isMobile())
+	{
+		document.addEventListener('touchstart', ui.handlers.handleTouchStart, {passive: false});        
+		document.addEventListener('touchmove', ui.handlers.handleTouchMove, {passive: false});		
+	}
+	else
+	{
+		window.addEventListener('keydown', ui.handlers.keyDownHandler);
+	}	
 }
 
-if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
-{
-	document.addEventListener('touchstart', ui.handlers.handleTouchStart, {passive: false});        
-	document.addEventListener('touchmove', ui.handlers.handleTouchMove, {passive: false});		
-}
-else
-{
-	window.addEventListener('keydown', ui.handlers.keyDownHandler);
-}
 
 
 
