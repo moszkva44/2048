@@ -1,7 +1,9 @@
 
 window.onload = function(){ 
 	// Init a new game
-	game.startNew(document.getElementById('size_selector').value);
+	var game = new Game(document.getElementById('size_selector').value);
+	
+	matrix = game.getMatrix();
 	
 	// bind event handlers to buttons
 	document.getElementById('resetButton').addEventListener('click', function(){
@@ -19,9 +21,10 @@ window.onload = function(){
 		document.addEventListener('touchstart', EventManager.handleTouchStart, {passive: false});        
 		document.addEventListener('touchmove', EventManager.handleTouchMove, {passive: false});		
 	}else{
-		window.addEventListener('keydown', EventManager.keyDownHandler);
+		window.addEventListener('keydown', EventManager.keyDownHandler, {passive: false});
 	}	
 }
+
 
 
 

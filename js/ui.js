@@ -2,7 +2,7 @@ var ui = {
 	score: 0,
 	__cells: [],
 	init: function(){
-		var size = matrix.get().length;
+		var size = globals.matrix.get().length;
 		
 		this.__cells = [];
 
@@ -27,10 +27,10 @@ var ui = {
 		}		
 	},
 	renderMatrix: function(){
-		var size = matrix.get().length;
+		var size = globals.matrix.get().length;
 		var content = "<table id=\"\grid\">";
 		
-		var width = height = (ui.isMobile() ? window.screen.width/size + 'px' : '4rem');
+		var width = height = (ui.isMobile() ? window.screen.width/size + 'px' : '5rem');
 		
 		for(var i=0; i<=size-1; i++)
 		{
@@ -80,14 +80,14 @@ var ui = {
 		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 	},	
 	destroyElements: function(){
-		var size = matrix.get().length;
+		var size = globals.matrix.get().length;
 		
 		for(var x = 0; x <= size-1; x++)
 		{
 			for(var y = 0; y <= size-1; y++)
 			{
-				document.body.removeChild(matrix.get()[x][y].getElement());
-				matrix.get()[x][y] = null;
+				document.body.removeChild(globals.matrix.get()[x][y].getElement());
+				globals.matrix.get()[x][y] = null;
 			}
 		}
 	},	

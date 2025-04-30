@@ -2,8 +2,8 @@ var TileManager = {
 	addNewTile: async function()
 	{
 		var seq = 0;
-		var potentialPlaces = matrix.getFreePlaces();
-		var size = matrix.get().length;
+		var potentialPlaces = globals.matrix.getFreePlaces();
+		var size = globals.matrix.get().length;
 		
 		if(potentialPlaces.length > 0) 
 		{
@@ -26,7 +26,7 @@ var TileManager = {
 		return false;
 	},
 	adjustTileToCell: async function(x, y){
-		var tile = matrix.get()[x][y];
+		var tile = globals.matrix.get()[x][y];
 		var pos = ui.__cells[x][y].getBoundingClientRect();
 		
 		tile.getElement().style.top = pos['top'];
@@ -53,7 +53,7 @@ var TileManager = {
 		return element;
 	},	
 	blinkTile: async function(x, y){
-		var tile = matrix.get()[x][y];
+		var tile = globals.matrix.get()[x][y];
 		
 		tile.getElement().className+=' merged';
 		
@@ -63,7 +63,7 @@ var TileManager = {
 		
 	},
 	changeTile: async function(x, y, v){
-		var tile = matrix.get()[x][y];
+		var tile = globals.matrix.get()[x][y];
 		
 		tile.setValue(v);
 	
@@ -77,21 +77,21 @@ var TileManager = {
 
 	},
 	swapTiles: async function(fromX, fromY, toX, toY){
-		var tile = matrix.get()[fromX][fromY];
-		var tmp = matrix.get()[toX][toY];
+		var tile = globals.matrix.get()[fromX][fromY];
+		var tmp = globals.matrix.get()[toX][toY];
 		var pos = ui.__cells[toX][toY].getBoundingClientRect();
 		
 		tile.getElement().style.top = pos['top'];
 		tile.getElement().style.left = pos['left'];
 
-		matrix.get()[toX][toY] = tile;
+		globals.matrix.get()[toX][toY] = tile;
 		
 		var pos = ui.__cells[fromX][fromY].getBoundingClientRect();
 		
 		tmp.getElement().style.top = pos['top'];
 		tmp.getElement().style.left = pos['left'];
 		
-		matrix.get()[fromX][fromY] = tmp;
+		globals.matrix.get()[fromX][fromY] = tmp;
 	}	
 	
 };

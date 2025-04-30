@@ -86,9 +86,12 @@ var tests = {
 	},
 	
 	testRemoveZerosFromColumn: async function(input, expected_output, index, dir){
+		var game = new Game(5);	
+		var matrix = game.getMatrix();		
+		
 		matrix.setFromArray(input);
 		
-		await MoveManager.__removeZeros(index, {'stepX': parseInt(dir[0]), 'stepY': parseInt(dir[1])});
+		await MoveManager.__removeZeros(index, dir);
 		
 		var result = JSON.stringify(matrix.getAsArray());
 		
@@ -110,9 +113,12 @@ var tests = {
 	},	
 	
 	testRemoveZerosFromRow: async function(input, expected_output, index, dir){
+		var game = new Game(5);	
+		var matrix = game.getMatrix();				
+		
 		matrix.setFromArray(input);
 		
-		await MoveManager.__removeZeros(index, {'stepX': parseInt(dir[0]), 'stepY': parseInt(dir[1])});
+		await MoveManager.__removeZeros(index, dir);
 		
 		var result = JSON.stringify(matrix.getAsArray());
 		
@@ -134,6 +140,9 @@ var tests = {
 	},
 	
 	testHasMergableCells: async function(input, expected_output){
+		var game = new Game(5);	
+		var matrix = game.getMatrix();				
+		
 		matrix.setFromArray(input);
 		
 		game.createBackupPoint();
@@ -156,8 +165,10 @@ var tests = {
 		}
 	},	
 	
-	testChangeCheckingAfterLeftMove: async function(input)
-	{
+	testChangeCheckingAfterLeftMove: async function(input){
+		var game = new Game(5);	
+		var matrix = game.getMatrix();				
+		
 		matrix.setFromArray(input);
 		
 		game.createBackupPoint();
@@ -176,8 +187,10 @@ var tests = {
 		}
 	},
 
-	testChangeCheckingAfterRightMove: async function(input)
-	{
+	testChangeCheckingAfterRightMove: async function(input){
+		var game = new Game(5);	
+		var matrix = game.getMatrix();				
+		
 		matrix.setFromArray(input);
 		
 		game.createBackupPoint();
@@ -196,8 +209,10 @@ var tests = {
 		}
 	},	
 	
-	testChangeCheckingAfterUpMove: async function(input)
-	{
+	testChangeCheckingAfterUpMove: async function(input){
+		var game = new Game(5);	
+		var matrix = game.getMatrix();				
+		
 		matrix.setFromArray(input);
 		
 		game.createBackupPoint();
@@ -216,8 +231,10 @@ var tests = {
 		}
 	},		
 
-	testChangeCheckingAfterDownMove: async function(input)
-	{
+	testChangeCheckingAfterDownMove: async function(input){
+		var game = new Game(5);	
+		var matrix = game.getMatrix();				
+		
 		matrix.setFromArray(input);
 				
 		game.createBackupPoint();
@@ -236,8 +253,10 @@ var tests = {
 		}
 	},		
 
-	testMoveMatrixLeft: async function(input, expected_output)
-	{
+	testMoveMatrixLeft: async function(input, expected_output){
+		var game = new Game(5);	
+		var matrix = game.getMatrix();				
+		
 		matrix.setFromArray(input);
 		await game.handleUserAction(MOVE.LEFT, true);
 		var result = JSON.stringify(matrix.getAsArray());
@@ -258,8 +277,10 @@ var tests = {
 		}
 	},
 
-	testMoveMatrixRight: async function(input, expected_output)
-	{
+	testMoveMatrixRight: async function(input, expected_output){
+		var game = new Game(5);	
+		var matrix = game.getMatrix();				
+		
 		matrix.setFromArray(input);
 		await game.handleUserAction(MOVE.RIGHT, true);
 		var result = JSON.stringify(matrix.getAsArray());
@@ -281,8 +302,10 @@ var tests = {
 	},
 
 
-	testMoveMatrixUp: async function(input, expected_output)
-	{
+	testMoveMatrixUp: async function(input, expected_output){
+		var game = new Game(5);	
+		var matrix = game.getMatrix();				
+		
 		matrix.setFromArray(input);
 		await game.handleUserAction(MOVE.UP, true);
 		var result = JSON.stringify(matrix.getAsArray());
@@ -303,8 +326,10 @@ var tests = {
 		}
 	},
 
-	testMoveMatrixDown: async function(input, expected_output)
-	{
+	testMoveMatrixDown: async function(input, expected_output){
+		var game = new Game(5);	
+		var matrix = game.getMatrix();				
+		
 		matrix.setFromArray(input);
 		await game.handleUserAction(MOVE.DOWN, true);
 		var result = JSON.stringify(matrix.getAsArray());
