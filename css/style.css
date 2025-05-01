@@ -171,10 +171,7 @@ tr{
 }
 
 td{
-   /*border: 0.1rem solid black;*/
    border-spacing: 0;
-   /*height: 4rem;
-   width: 4rem;*/
    margin: 0; 
    padding: 0;  
    spacing: 0.1rem;
@@ -196,7 +193,7 @@ input[type="button"]:hover{
 span#score{
 	background-color: white;
 	color: black;
-	font-size: 0.7rem;
+	font-size: 0.9rem;
 	margin-left: 1rem;
 }
 
@@ -214,9 +211,6 @@ div#menu{
 /* tile classes */
 div.tile{
    border-spacing: 0;
-   /*height: 4rem;
-   width: 4rem;
-   line-height: 4rem;*/
    padding: 0;  
    spacing: 0.1rem;
    text-align: center;
@@ -240,9 +234,6 @@ div.merged{
 @keyframes blink {
   80% {
     color:white;
-  }
-  90% {
-    color:orange;
   }
 }
 

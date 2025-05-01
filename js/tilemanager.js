@@ -1,28 +1,24 @@
 var TileManager = {
-	addNewTile: async function()
-	{
-		var seq = 0;
-		var potentialPlaces = globals.matrix.getFreePlaces();
+	/**
+	* Gind a random cell where the tile's value is zero and then change it to 2 or 4
+	*/
+	addNumber: async function(){
+		var potentialPlaces = globals.matrix.getIndexesOfAvailableTiles();
 		var size = globals.matrix.get().length;
 		
-		if(potentialPlaces.length > 0) 
-		{
-			var newNumber = potentialPlaces[utils.getRandomArbitrary(0, potentialPlaces.length-1)];
+		if(potentialPlaces.length==0) return false;
 
-			for(var x = 0; x <= size-1; x++)
-			{
-				for(var y = 0; y <= size-1; y++)
-				{
-					if(seq==newNumber)
-					{
-						return await this.changeTile(x, y, utils.getRandomValue());
-					}
-					
-					seq++;
+		var selected = potentialPlaces[utils.getRandomInRange(0, potentialPlaces.length-1)];
+
+		for(var x = 0; x <= size-1; x++){
+			for(var y = 0; y <= size-1; y++){
+				if((x * size) + y==selected){
+					await this.changeTile(x, y, utils.getRandomValue());
+					return true;
 				}
-			}		
+			}
 		}
-		
+
 		return false;
 	},
 	adjustTileToCell: async function(x, y){
@@ -42,13 +38,13 @@ var TileManager = {
 		
 		if(v > 0){
 			element.className+=" cell" + v;
-		} else{
+		}else{
 			element.className+=" tile0";
 		}
 		
 		element.innerHTML = v;
 		
-		document.body.appendChild(element);		
+		document.getElementById('tiles').appendChild(element); 
 		
 		return element;
 	},	
@@ -67,10 +63,10 @@ var TileManager = {
 		
 		tile.setValue(v);
 	
+		tile.getElement().className ="tile";
+		
 		if(v > 0){
-			tile.getElement().className ="tile cell" + v;
-		} else{
-			tile.getElement().className ="tile";
+			tile.getElement().className+=" cell" + v;
 		}
 		
 		tile.getElement().innerHTML = v==0 ? '' : v;
@@ -92,6 +88,22 @@ var TileManager = {
 		tmp.getElement().style.left = pos['left'];
 		
 		globals.matrix.get()[fromX][fromY] = tmp;
-	}	
+	},
+	/**
+	* Merge two tiles by position. 
+	* After merging th two tiles are swaped. (x1,y1) tile will be at position of (x2,y2).
+	*/
+	mergeTiles: async function(x1, y1, x2, y2){
+		var promises = [];
+		
+		promises.push(this.swapTiles(x2, y2, x1, y1));				
+		promises.push(this.changeTile(x1, y1, globals.matrix.get()[x1][y1].getValue() * 2));				
+		promises.push(this.blinkTile(x1, y1));
+		promises.push(this.changeTile(x2, y2, 0));
+		
+		ui.score+= globals.matrix.get()[x1][y1].getValue();
+		
+		return await Promise.all(promises);
+	}
 	
 };

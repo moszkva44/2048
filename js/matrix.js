@@ -9,99 +9,66 @@ Matrix.prototype.get = function(){
 };
 
 Matrix.prototype.getAsArray = function(){
-	var size = this.__matrix.length;
 	var matrix = [];
 	
-	for(var x = 0; x <= size-1; x++)
-	{
+	this.__matrix.forEach((row, x) => {
 		matrix[x] = [];
-		
-		for(var y = 0; y <= size-1; y++)
-		{
+		row.forEach((val, y) => {
 			matrix[x][y] = this.__matrix[x][y].getValue();
-		}
-	}
+		});
+	});	
 	
 	return matrix;
 };
 
 Matrix.prototype.setFromArray = function(matrix){
-	var size = matrix.length;
-	
 	this.__matrix = [];
 	
-	for(var x = 0; x <= size-1; x++)
-	{
+	matrix.forEach((row, x) => {
 		this.__matrix[x] = [];
-		
-		for(var y = 0; y <= size-1; y++)
-		{
-			this.__matrix[x][y] = new Tile(TileManager.createTileElement(matrix[x][y]), matrix[x][y]);
-		}
-	}
+		row.forEach((val, y) => {
+			this.__matrix[x][y] = new Tile(TileManager.createTileElement(val), val);
+		});
+	});	
 };
 
 Matrix.prototype.init = function(i){
 	this.__matrix = [];
 	
-	for(var x = 0; x <= i-1; x++)
-	{
+	var rows = { length: i };
+	
+	Array.from(rows, () => Array.from(rows, () => 0)).forEach((row, x) => {
 		this.__matrix[x] = [];
-		
-		for(var y = 0; y <= i-1; y++)
-		{
+		row.forEach((column, y) => {
 			this.__matrix[x][y] = new Tile(TileManager.createTileElement(0), 0);
-		}
-	}
+		});
+	});	
 };
 
-
-Matrix.prototype.getFreePlaces =function(){
-	var seq = 0;
+Matrix.prototype.getIndexesOfAvailableTiles = function(){
 	var places = [];
-	var size = this.__matrix.length;
 
-	for(var x = 0; x <= size-1; x++)
-	{
-		for(var y = 0; y <= size-1; y++)
-		{
-			if(this.__matrix[x][y].getValue()==0)
-			{
-				places.push(seq);
-			}
-			
-			seq++;
-		}
-	}		
+	this.__matrix.forEach((row, x) => {
+		row.forEach((column, y) => {
+			if(this.__matrix[x][y].getValue()==0) places.push(x * this.__matrix.length + y);			
+		});
+	});	
 	
 	return places;
 };
 
 Matrix.prototype.hasMergableCells = function(){
-	var size = this.__matrix.length;
-	
-	for(var x = 0; x <= size-1; x++)
-	{
-		for(var y = 0; y <= size-1; y++)
-		{
-			if(y < size-1 && this.__matrix[x][y].getValue()==this.__matrix[x][y+1].getValue() && this.__matrix[x][y].getValue() > 0)
-			{
-				return true;
+	var checkLines = function(matrix){
+		for(var x = 0; x <= matrix.length-1; x++){
+			for(var y = 0; y < matrix.length-1; y++){
+				if(matrix[x][y].getValue()==matrix[x][y+1].getValue() && matrix[x][y].getValue() > 0) return true;
 			}
 		}
-	}
-
-	for(var y = 0; y <= size-1; y++)
-	{
-		for(var x = 0; x <= size-1; x++)
-		{
-			if(x < size-1 && this.__matrix[x][y].getValue()==this.__matrix[x+1][y].getValue() && this.__matrix[x][y].getValue() > 0)
-			{
-				return true;
-			}
-		}
-	}		
+		
+		return false;
+	};
 	
-	return false;
+	return checkLines(this.__matrix) || checkLines(utils.rotateMatrix(this.__matrix));
 };
+
 

@@ -5,7 +5,6 @@ const MOVE = {
 	'DOWN': new Direction(0,1)
 };
 
-
 function Game(size){
 	this.size = size;
 	this.__matrix = [];
@@ -23,24 +22,22 @@ Game.prototype.getMatrix = function(){
 Game.prototype.init = function(size){
 	ui.hideGameOver();
 	
-	if(localStorage.getItem("matrix") && localStorage.getItem("score")){
-		
+	if(localStorage.getItem("matrix") && localStorage.getItem("score")){		
 		globals.matrix = this.__matrix = new Matrix(size);		
 		this.__matrix.setFromArray(JSON.parse(localStorage.getItem("matrix")));
 		ui.score = parseInt(localStorage.getItem("score"));
 		
 		ui.renderMatrix();
 		ui.renderScore();
-		
 	}else{
-		globals.matrix = this.__matrix = new Matrix(size);	
+		globals.matrix = this.__matrix = new Matrix(localStorage.getItem("pref_size") ? localStorage.getItem("pref_size") : size);	
 		
 		ui.score = 0;
 
 		ui.renderMatrix();
 		
-		TileManager.addNewTile();
-		TileManager.addNewTile();
+		TileManager.addNumber();
+		TileManager.addNumber();
 		
 		ui.renderScore();
 	}			
@@ -50,21 +47,17 @@ Game.prototype.getBackupPoint = function(){
 	return this.__prevState;
 };
 
-Game.prototype.handleUserAction = async function(action, dontAddTile){
-	// There was no move
+Game.prototype.handleUserAction = async function(action, dontAddTile = false){
+	// If no move happened, exit from the function
 	if(action.stepX==0 && action.stepY==0) return false;
-	
-	dontAddTile = dontAddTile || false;
 	
 	this.createBackupPoint();
 	
 	await MoveManager.move(action);
 	
-	if(!dontAddTile&& this.getBackupPoint().matrix!==JSON.stringify(this.__matrix.getAsArray()))
-	{
+	if(!dontAddTile&& this.getBackupPoint().matrix!==JSON.stringify(this.__matrix.getAsArray())){
 		await utils.sleep(250);
-		await TileManager.addNewTile();
-		
+		await TileManager.addNumber();
 	}			
 	
 	ui.renderScore();
@@ -91,13 +84,15 @@ Game.prototype.reset=function(size){
 	globals.matrix = this.__matrix = new Matrix(size);
 	
 	ui.score = 0;
-		
+
 	ui.renderMatrix();
 	
-	TileManager.addNewTile();
-	TileManager.addNewTile();	
+	TileManager.addNumber();
+	TileManager.addNumber();	
 	
-	ui.renderScore();		
+	ui.renderScore();	
+
+	localStorage.setItem("pref_size", size);
 };
 
 Game.prototype.undo = function(){
@@ -116,11 +111,15 @@ Game.prototype.createBackupPoint = function(){
 	this.__prevState = {"matrix": JSON.stringify(this.__matrix.getAsArray()), "score": ui.score};
 };
 
+Game.prototype.removeBackupPoint = function(){
+	this.__prevState = false;
+};
+
 Game.prototype.createSnapshot = function(){		
 	localStorage.setItem("matrix", JSON.stringify(this.__matrix.getAsArray()));
 	localStorage.setItem("score", ui.score);
 };
 
 Game.prototype.isGamerOver = function(){
-	return (this.__matrix.getFreePlaces().length==0 && !this.__matrix.hasMergableCells());
+	return (this.__matrix.getIndexesOfAvailableTiles().length==0 && !this.__matrix.hasMergableCells());
 };

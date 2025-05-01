@@ -26,6 +26,3 @@ window.onload = function(){
 }
 
 
-
-
-

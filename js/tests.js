@@ -25,6 +25,7 @@ var tests = {
 		
 		await this.testHasMergableCells([[0,2,0,2,0],[2,0,2,0,2], [0,2,0,2,0], [2,0,2,0,2], [0,2,0,2,0]], false);
 		await this.testHasMergableCells([[0,2,0,2,0],[2,0,2,0,2], [0,2,0,2,0], [2,0,2,4,2], [0,2,0,4,0]], true);
+		await this.testHasMergableCells([[0,2,0,2,0],[2,0,2,0,2], [0,2,0,2,0], [2,0,2,0,2], [0,2,8,8,0]], true);
 
 		await this.testRemoveZerosFromRow([[1,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.RIGHT);
 		await this.testRemoveZerosFromRow([[0,1,1,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], [[0,0,0,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.RIGHT);
@@ -81,9 +82,10 @@ var tests = {
 		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);
 		await this.testRemoveZerosFromColumn([[1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,0]], [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], 0, MOVE.UP);
 		
-		ui.destroyElements();	
-		
+		localStorage.removeItem("matrix");
+		localStorage.removeItem("score");		
 	},
+	
 	
 	testRemoveZerosFromColumn: async function(input, expected_output, index, dir){
 		var game = new Game(5);	
@@ -110,6 +112,7 @@ var tests = {
 			console.log('Test passed! testRemoveZerosFromColumn()');
 		}		
 		
+		ui.destroyElements();
 	},	
 	
 	testRemoveZerosFromRow: async function(input, expected_output, index, dir){
@@ -137,6 +140,7 @@ var tests = {
 			console.log('Test passed! testRemoveZerosFromRow()');
 		}		
 		
+		ui.destroyElements();
 	},
 	
 	testHasMergableCells: async function(input, expected_output){
@@ -163,6 +167,8 @@ var tests = {
 		{
 			console.log('Test passed! testHasMergableCells()');
 		}
+		
+		ui.destroyElements();
 	},	
 	
 	testChangeCheckingAfterLeftMove: async function(input){
@@ -185,6 +191,8 @@ var tests = {
 		{
 			console.log('Test passed! testChangeChecking()');
 		}
+		
+		ui.destroyElements();
 	},
 
 	testChangeCheckingAfterRightMove: async function(input){
@@ -207,6 +215,8 @@ var tests = {
 		{
 			console.log('Test passed! testChangeChecking()');
 		}
+		
+		ui.destroyElements();
 	},	
 	
 	testChangeCheckingAfterUpMove: async function(input){
@@ -229,6 +239,8 @@ var tests = {
 		{
 			console.log('Test passed! testChangeChecking()');
 		}
+		
+		ui.destroyElements();
 	},		
 
 	testChangeCheckingAfterDownMove: async function(input){
@@ -251,6 +263,8 @@ var tests = {
 		{
 			console.log('Test passed! testChangeChecking()');
 		}
+		
+		ui.destroyElements();
 	},		
 
 	testMoveMatrixLeft: async function(input, expected_output){
@@ -275,6 +289,8 @@ var tests = {
 		{
 			console.log('Test passed! testMoveLeft()');
 		}
+		
+		ui.destroyElements();
 	},
 
 	testMoveMatrixRight: async function(input, expected_output){
@@ -299,6 +315,8 @@ var tests = {
 		{
 			console.log('Test passed! testMoveRight()');
 		}
+		
+		ui.destroyElements();
 	},
 
 
@@ -324,6 +342,8 @@ var tests = {
 		{
 			console.log('Test passed! testMoveUp()');
 		}
+		
+		ui.destroyElements();
 	},
 
 	testMoveMatrixDown: async function(input, expected_output){
@@ -348,6 +368,8 @@ var tests = {
 		{
 			console.log('Test passed! testMoveDown()');
 		}
+		
+		ui.destroyElements();
 	}
 
 };
