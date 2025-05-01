@@ -2,7 +2,7 @@ var TileManager = {
 	/**
 	* Gind a random cell where the tile's value is zero and then change it to 2 or 4
 	*/
-	addNumber: async function(){
+	addNumber: async function(num = 0){
 		var potentialPlaces = globals.matrix.getIndexesOfAvailableTiles();
 		var size = globals.matrix.get().length;
 		
@@ -13,7 +13,7 @@ var TileManager = {
 		for(var x = 0; x <= size-1; x++){
 			for(var y = 0; y <= size-1; y++){
 				if((x * size) + y==selected){
-					await this.changeTile(x, y, utils.getRandomValue());
+					await this.changeTile(x, y, num > 0 ? num : utils.getRandomValue());
 					return true;
 				}
 			}

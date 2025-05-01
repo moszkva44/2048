@@ -42,7 +42,7 @@ Matrix.prototype.init = function(i){
 		row.forEach((column, y) => {
 			this.__matrix[x][y] = new Tile(TileManager.createTileElement(0), 0);
 		});
-	});	
+	});
 };
 
 Matrix.prototype.getIndexesOfAvailableTiles = function(){

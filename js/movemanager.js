@@ -1,5 +1,5 @@
 var MoveManager = {
-	__getExremePositionOfNotZero: function(vector, direction){
+	__getPosOfTileToBeMoved: function(vector, direction){
 		var pos = -1;
 		
 		utils.getIterator(0, vector.length-1, direction, (i) => {
@@ -20,7 +20,7 @@ var MoveManager = {
 		
 		var step = (dir.stepX!=0) ? dir.stepX : dir.stepY;
 	
-		while(this.__getExremePositionOfNotZero(vector, step) > -1){
+		while(this.__getPosOfTileToBeMoved(vector, step) > -1){
 			utils.getIterator(0, globals.matrix.get().length-1, step, (i) => {
 				if(vector[i+step].getValue()==0){	
 					vector[i + step] = this.__isVerticalStep(dir) ? globals.matrix.get()[i][x] : globals.matrix.get()[x][i];

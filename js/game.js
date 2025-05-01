@@ -74,7 +74,7 @@ Game.prototype.handleUserAction = async function(action, dontAddTile = false){
 	return false;
 };
 
-Game.prototype.reset=function(size){
+Game.prototype.reset = function(size){
 	ui.destroyElements();
 	ui.hideGameOver();
 	
