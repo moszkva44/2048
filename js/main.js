@@ -14,7 +14,13 @@ window.onload = function(){
 		game.undo();		
 	});  	 
 
-	document.getElementById('size_selector').value = matrix.get().length;
+	var size_selected = matrix.get().length;
+	
+	if(globals.game.__stableTileCount==1) size_selected = '5-1';
+	
+	if(globals.game.__stableTileCount==2) size_selected = '5-2';
+
+	document.getElementById('size_selector').value = size_selected;
 	
 	// bind event handlers to user input depending on coming from mobile/desktop
 	if(ui.isMobile()){

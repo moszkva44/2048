@@ -1,6 +1,6 @@
 var TileManager = {
 	/**
-	* Gind a random cell where the tile's value is zero and then change it to 2 or 4
+	* Take a random cell where the tile's value is zero and then change it to 2 or 4
 	*/
 	addNumber: async function(num = 0){
 		var potentialPlaces = globals.matrix.getIndexesOfAvailableTiles();
@@ -21,6 +21,10 @@ var TileManager = {
 
 		return false;
 	},
+	/*
+	* During initizalization there is a time when Tile elements have no valid positions. 
+	* This function takes a tile by its position and its element's position sets to the related cell's position
+	*/
 	adjustTileToCell: async function(x, y){
 		var tile = globals.matrix.get()[x][y];
 		var pos = ui.__cells[x][y].getBoundingClientRect();
@@ -30,7 +34,12 @@ var TileManager = {
 		tile.getElement().style.width = pos['width'];
 		tile.getElement().style.height = pos['height'];
 		tile.getElement().style.lineHeight = pos['height'] + 'px';
+		
+		if(tile.isStable()) this.setTileStable(x,y);
 	},
+	/*
+	* Create a div element for a tile and add it to the tiles container div.  
+	*/
 	createTileElement: function(v){
 		var element = document.createElement('div');
 		
@@ -48,6 +57,10 @@ var TileManager = {
 		
 		return element;
 	},	
+	/*
+	* Take a tile element by position and add merged class to it in order to make it blink.
+	* After 500ms remove the merged class.
+	*/
 	blinkTile: async function(x, y){
 		var tile = globals.matrix.get()[x][y];
 		
@@ -58,6 +71,9 @@ var TileManager = {
 		}, 500)
 		
 	},
+	/**
+	* Take a tile by its position then modify its value
+	*/
 	changeTile: async function(x, y, v){
 		var tile = globals.matrix.get()[x][y];
 		
@@ -70,8 +86,23 @@ var TileManager = {
 		}
 		
 		tile.getElement().innerHTML = v==0 ? '' : v;
-
 	},
+	/**
+	* Set tile to stable. If a tile is stable, its position is fix, it cannot be moved. It acts like a wall or an obstacle. 
+	*/	
+	setTileStable: function(x,y){
+		var tile = globals.matrix.get()[x][y];
+		
+		tile.setStable();
+		
+		tile.setValue('X');
+		tile.getElement().innerHTML = "X";
+		
+		tile.getElement().className ="tile cellStable";
+	},	
+	/**
+	* Take two tile elements by their positions then swap their positions.
+	*/
 	swapTiles: async function(fromX, fromY, toX, toY){
 		var tile = globals.matrix.get()[fromX][fromY];
 		var tmp = globals.matrix.get()[toX][toY];

@@ -1,7 +1,10 @@
 var ui = {
 	score: 0,
 	__cells: [],
-	init: function(){
+	/**
+	* Store table cells and adjust tiles to them
+	*/
+	__registerCells: function(){
 		this.__cells = [];
 
 		globals.matrix.get().forEach((row, i) => {
@@ -17,6 +20,9 @@ var ui = {
 			});
 		});
 	},
+	/**
+	* Render the matrix. First draw a table according to the given size then call the initizalization of tile DOM elements
+	*/
 	renderMatrix: function(){
 		var content = '';
 		
@@ -34,12 +40,18 @@ var ui = {
 		
 		document.getElementById('matrix').innerHTML = "<table id=\"\grid\">" + content + "</table>";	
 
-		this.init();
+		this.__registerCells();
 		
 	},	
+	/**
+	* Render score, update the value
+	*/
 	renderScore: function(){
 		document.getElementById('score').innerHTML = "Score: " + this.score;
 	},
+	/**
+	* Render game over screen
+	*/
 	renderGameOver: function(){
 		var pos = document.getElementById('grid').getBoundingClientRect();
 		
@@ -57,14 +69,23 @@ var ui = {
 			document.getElementById('game_over').innerHTML = '';		
 			
 		}, 1500);
-	},	
+	},
+	/**
+	* Hide game over screen
+	*/
 	hideGameOver: function(){
 		document.getElementById('game_over').style = '';
 		document.getElementById('game_over').innerHTML = 'Game over';		
 	},
+	/**
+	* return true if the user visits application on mobile device otherwise return false
+	*/
 	isMobile: function(){
 		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-	},	
+	},
+	/**
+	* Remove all DOM elements related to tiles
+	*/
 	destroyElements: function(){
 		document.getElementById('tiles').innerHTML = '';
 	}

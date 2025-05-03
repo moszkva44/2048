@@ -1,13 +1,22 @@
+/**
+* Init a new matrix with the given size
+*/
 function Matrix(size){
 	this.__matrix = [];
 	
 	this.init(size);
 }
 
+/**
+* Get matrix as an object
+*/
 Matrix.prototype.get = function(){
 	return this.__matrix;
 };
 
+/**
+* Get matrix as 2d array
+*/
 Matrix.prototype.getAsArray = function(){
 	var matrix = [];
 	
@@ -21,6 +30,9 @@ Matrix.prototype.getAsArray = function(){
 	return matrix;
 };
 
+/**
+* Set matrix from a 2d array
+*/
 Matrix.prototype.setFromArray = function(matrix){
 	this.__matrix = [];
 	
@@ -28,10 +40,15 @@ Matrix.prototype.setFromArray = function(matrix){
 		this.__matrix[x] = [];
 		row.forEach((val, y) => {
 			this.__matrix[x][y] = new Tile(TileManager.createTileElement(val), val);
+			
+			if(this.__matrix[x][y].getValue()=='X') this.__matrix[x][y] .setStable();
 		});
 	});	
 };
 
+/**
+* init the matrix with a size specified in the argument and fill it with zero values
+*/
 Matrix.prototype.init = function(i){
 	this.__matrix = [];
 	
@@ -45,6 +62,9 @@ Matrix.prototype.init = function(i){
 	});
 };
 
+/**
+* Return an array containing indexes of tiles having zero value
+*/
 Matrix.prototype.getIndexesOfAvailableTiles = function(){
 	var places = [];
 
@@ -57,6 +77,9 @@ Matrix.prototype.getIndexesOfAvailableTiles = function(){
 	return places;
 };
 
+/**
+* return true if matrix has mergable cells
+*/
 Matrix.prototype.hasMergableCells = function(){
 	var checkLines = function(matrix){
 		for(var x = 0; x <= matrix.length-1; x++){
