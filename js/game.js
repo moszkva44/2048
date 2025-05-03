@@ -39,8 +39,6 @@ Game.prototype.init = function(size){
 		
 		ui.renderMatrix();
 		
-		if(localStorage.getItem("stableTileCount")) this.__stableTileCount = localStorage.getItem("stableTileCount");
-		
 		ui.renderScore();
 	}else{
 		globals.matrix = this.__matrix = new Matrix(localStorage.getItem("pref_size") ? localStorage.getItem("pref_size") : size);	
