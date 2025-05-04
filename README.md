@@ -40,3 +40,7 @@ Take a try here:
 
 https://moszkva44.github.io/2048/
 
+
+
+Tested on: PC, Android and iOS mobile devices. 
+
