@@ -18,9 +18,9 @@ Rules are the same as any other 2048 game has: You can move whole rows and colum
 
 - Stable tiles that act like obstacles making the game more difficult
 
-- mobile and desktop compatibly
+- Mobile and desktop compatibility
 
-- no ads
+- Ads free
 
   
 
