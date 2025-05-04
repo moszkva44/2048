@@ -16,9 +16,9 @@ window.onload = function(){
 
 	var size_selected = matrix.get().length;
 	
-	if(globals.game.__stableTileCount==1) size_selected = '5-1';
+	if(globals.game.getStableTileCount()==1) size_selected = '5-1';
 	
-	if(globals.game.__stableTileCount==2) size_selected = '5-2';
+	if(globals.game.getStableTileCount()==2) size_selected = '5-2';
 
 	document.getElementById('size_selector').value = size_selected;
 	

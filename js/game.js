@@ -116,6 +116,12 @@ Game.prototype.__processSizeParameter = function(size){
 };
 
 /**
+* Get the count of stable tiles in the matrix.
+*/
+Game.prototype.getStableTileCount = function(){
+	return this.__stableTileCount;
+};
+/**
 * Reset the game
 */
 Game.prototype.reset = function(size){
