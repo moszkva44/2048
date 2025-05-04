@@ -25,7 +25,8 @@ window.onload = function(){
 	// bind event handlers to user input depending on coming from mobile/desktop
 	if(ui.isMobile()){
 		document.addEventListener('touchstart', EventManager.handleTouchStart, {passive: false});        
-		document.addEventListener('touchmove', EventManager.handleTouchMove, {passive: false});		
+		document.addEventListener('touchmove', EventManager.handleTouchMove, {passive: false});	
+		
 	}else{
 		window.addEventListener('keydown', EventManager.keyDownHandler, {passive: false});
 	}	

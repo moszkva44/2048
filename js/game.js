@@ -14,9 +14,9 @@ function Game(size){
 	this.__stableTileCount = 0;
 	this.__prevState = false;
 
-	this.init(this.size);
-	
 	globals.game = this;
+	
+	this.init(this.size);
 }
 
 /**
@@ -121,6 +121,14 @@ Game.prototype.__processSizeParameter = function(size){
 Game.prototype.getStableTileCount = function(){
 	return this.__stableTileCount;
 };
+
+/**
+* Increase the count of stable tiles in the matrix.
+*/
+Game.prototype.increaseStableTileCount = function(){
+	this.__stableTileCount++;
+};
+
 /**
 * Reset the game
 */

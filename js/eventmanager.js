@@ -1,22 +1,22 @@
 var EventManager = {	
-	__keyLocked: false, 
+	__inputLocked: false, 
 	/**
-	* Lock handling of user input coming from keyboard
+	* Lock handling of user input 
 	*/
-	__lockKeyInput: function(){
-		EventManager.__keyLocked = true;
+	__lockInput: function(){
+		EventManager.__inputLocked = true;
 	},
 	/**
-	* Release the lock on user input handling coming from keyboard
+	* Release the lock on user input handling
 	*/	
-	__unlockKeyInput: function(){
-		EventManager.__keyLocked = false;
+	__unlockInput: function(){
+		EventManager.__inputLocked = false;
 	},
 	/**
 	* Return true if user input handling is locked otherwhise return false
 	*/
-	__isKeyInputLocked: function(){
-		return EventManager.__keyLocked;
+	__isInputLocked: function(){
+		return EventManager.__inputLocked;
 	}, 
 	/**
 	* Handling user input coming from keyboard on desktop 
@@ -27,10 +27,10 @@ var EventManager = {
 		
 		var keyMap = {"ArrowLeft": MOVE.LEFT, 'ArrowRight': MOVE.RIGHT, 'ArrowUp': MOVE.UP, 'ArrowDown': MOVE.DOWN};
 		
-		if(!EventManager.__isKeyInputLocked()){
-			EventManager.__lockKeyInput();
+		if(!EventManager.__isInputLocked()){
+			EventManager.__lockInput();
 			await globals.game.handleUserAction(event.key in keyMap ? keyMap[event.key] : new Direction(0,0));
-			EventManager.__unlockKeyInput();
+			EventManager.__unlockInput();
 		}
 	},
 	__xDown: null,                                                        
@@ -46,17 +46,21 @@ var EventManager = {
 	* Handle start touch event on mobile device
 	*/
 	handleTouchStart: function(evt) {
-		const firstTouch = EventManager.__getTouches(evt)[0];                                      
-		this.__xDown = firstTouch.clientX;                                      
-		this.__yDown = firstTouch.clientY;                                      
+		if(!EventManager.__isInputLocked()){
+			EventManager.__lockInput();
+			const firstTouch = EventManager.__getTouches(evt)[0];                                      
+			this.__xDown = firstTouch.clientX;                                      
+			this.__yDown = firstTouch.clientY; 
+		}		
 	},
+
 	/**
 	* Handle touch move event on mobile device
 	*/
 	handleTouchMove: async function(evt) {
 		event.preventDefault();
-		event.stopPropagation();	
-
+		event.stopPropagation();
+		
 		var promises = [];
 		
 		if ( ! this.__xDown || ! this.__yDown ) {
@@ -86,7 +90,8 @@ var EventManager = {
 		/* reset values */
 		this.__xDown = null;
 		this.__yDown = null;     
-
-		return await Promise.all(promises);
+		
+		await Promise.all(promises);		
+		EventManager.__unlockInput();
 	}		
 }; 

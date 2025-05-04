@@ -41,7 +41,7 @@ Matrix.prototype.setFromArray = function(matrix){
 		row.forEach((val, y) => {
 			this.__matrix[x][y] = new Tile(TileManager.createTileElement(val), val);
 			
-			if(this.__matrix[x][y].getValue()=='X') this.__matrix[x][y] .setStable();
+			if(this.__matrix[x][y].getValue()=='X') this.__matrix[x][y].setStable();
 		});
 	});	
 };

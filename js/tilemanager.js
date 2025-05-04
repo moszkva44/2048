@@ -35,7 +35,10 @@ var TileManager = {
 		tile.getElement().style.height = pos['height'];
 		tile.getElement().style.lineHeight = pos['height'] + 'px';
 		
-		if(tile.isStable()) this.setTileStable(x,y);
+		if(tile.isStable()){ 
+			this.setTileStable(x,y);
+			globals.game.increaseStableTileCount();
+		}
 	},
 	/*
 	* Create a div element for a tile and add it to the tiles container div.  
