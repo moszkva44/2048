@@ -20,7 +20,13 @@ Rules are the same as any other 2048 game has: You can move whole rows and colum
 
 - mobile and desktop compatibly
 
-  
+- no ads
 
   
+
+## Demo
+
+Take a try here: 
+
+https://moszkva44.github.io/2048/
 
