@@ -133,6 +133,8 @@ Game.prototype.increaseStableTileCount = function(){
 * Reset the game
 */
 Game.prototype.reset = function(size){
+	this.__stableTileCount = 0;
+	
 	size = this.__processSizeParameter(size);
 	
 	ui.destroyElements();
