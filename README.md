@@ -28,6 +28,10 @@ Rules are the same as any other 2048 game has: You can move whole rows and colum
 
 - Stable tiles that act like obstacles making the game more difficult
 
+- Undo move
+
+- Keeps the ongoing game's state so you can continue the game later
+
 - Mobile and desktop compatibility
 
 - Ads free
