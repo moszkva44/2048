@@ -10,6 +10,16 @@ Rules are the same as any other 2048 game has: You can move whole rows and colum
 
 ![](img/gameplay.png)
 
+## Control
+
+* On mobile device you can swipe the screen to the desired direction
+
+  ![](img/mobile.jpg)
+
+* On desktop you can use arrow keys
+
+  ![](img/keyboards.jpg)
+
 
 
 ## Features
